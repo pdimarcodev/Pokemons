@@ -6,11 +6,12 @@ interface UseGetPokemonByUrl {
 }
 
 export const useGetPokemonByUrl = ({ url }: UseGetPokemonByUrl) => {
-  const { data, error, isLoading } = useSWR<Pokemon>(url);
+  const { data, error, isLoading, isValidating } = useSWR<Pokemon>(url);
 
   return {
     data,
     error,
     isLoading,
+    isValidating,
   };
 };

@@ -1,3 +1,4 @@
+import { useCallback, useRef, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -8,7 +9,6 @@ import {
 import { Text, View } from "@/components/Themed";
 import { useGetPokemons } from "@/hooks/useGetPokemons";
 import { PokemonCard } from "@/components/PokemonCard";
-import { useCallback, useRef, useState } from "react";
 
 export default function Pokemons() {
   const [nextUrl, setNextUrl] = useState<string>();
@@ -46,9 +46,9 @@ export default function Pokemons() {
         paddingTop: 50,
         paddingBottom: 150,
         paddingHorizontal: 20,
-        gap: 10,
+        gap: 20,
       }}
-      columnWrapperStyle={{ gap: 10 }}
+      columnWrapperStyle={{ gap: 20 }}
       decelerationRate={0.5}
       onScrollBeginDrag={onMomentumScrollBegin}
       // ItemSeparatorComponent={ItemDivider}
@@ -85,6 +85,8 @@ export default function Pokemons() {
     />
   );
 }
+
+// TODO: Borrar estilos no utilizados
 
 const styles = StyleSheet.create({
   container: {

@@ -1,68 +1,81 @@
+import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
+import Animated, { FadeInUp } from "react-native-reanimated";
 import { useGetPokemonByUrl } from "@/hooks/useGetPokemonByUrl";
-import { Image, StyleSheet, Text, View } from "react-native";
 
 interface Props {
   url: string;
   index: number;
 }
 
-export const PokemonCard = ({ url, index }: Props) => {
-  const { data, error, isLoading } = useGetPokemonByUrl({ url });
+const DELAY_FACTOR = 100;
 
-  if (isLoading) {
+const { width: screenWidth } = Dimensions.get("window");
+
+export const PokemonCard = ({ url, index }: Props) => {
+  const { data, error, isValidating } = useGetPokemonByUrl({ url });
+
+  if (isValidating) {
     return null;
   }
 
   return (
-    <View style={styles.card}>
-      <View style={styles.spacing}>
-        <View>
-          <Text style={styles.num}>#{`${data?.id}`}</Text>
-          <Text
-            style={styles.name}
-          >{`${data?.name.charAt(0).toUpperCase()}${data?.name?.slice(1)}`}</Text>
-          <Image
-            source={{ uri: data?.sprites?.front_shiny }}
-            style={styles.image}
-          />
-        </View>
+    <Animated.View
+      entering={FadeInUp.delay(DELAY_FACTOR * index).springify()}
+      style={styles.card}
+    >
+      <View style={styles.imageContainer}>
+        <Image
+          source={{ uri: data?.sprites?.front_shiny }}
+          style={styles.image}
+          resizeMode="stretch"
+        />
       </View>
-    </View>
+      <View style={styles.textContainer}>
+        <Text
+          numberOfLines={1}
+          adjustsFontSizeToFit
+          style={styles.name}
+        >{`${data?.name.charAt(0).toUpperCase()}${data?.name?.slice(1)}`}</Text>
+        <Text style={styles.id}>#{`${data?.id}`}</Text>
+      </View>
+    </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    flex: 1,
     height: 130,
+    width: screenWidth / 2 - 30,
+    borderRadius: 5,
+    borderColor: "#0077B6",
+    borderWidth: 1,
+    borderBottomWidth: 2,
+    paddingBottom: 10,
+    backgroundColor: "#003566",
   },
-  spacing: {
+  imageContainer: {
+    width: 90,
+    height: 90,
+    alignSelf: "center",
+  },
+  image: {
     flex: 1,
-    padding: 5,
   },
-  bgStyles: {
-    flex: 1,
-    borderRadius: 15,
-    padding: 10,
-  },
-  num: {
-    position: "absolute",
-    right: 10,
-    top: 10,
-    color: "#fff",
-    fontSize: 11,
+  textContainer: {
+    flexDirection: "row",
+    alignItems: "baseline",
+    justifyContent: "space-between",
+    paddingHorizontal: 10,
   },
   name: {
+    flexShrink: 1,
     color: "#fff",
     fontWeight: "bold",
     fontSize: 15,
-    paddingTop: 10,
+    marginRight: 2,
   },
-  image: {
-    position: "absolute",
-    bottom: 2,
-    right: 2,
-    width: 90,
-    height: 90,
+  id: {
+    color: "#fff",
+    fontSize: 11,
   },
 });
