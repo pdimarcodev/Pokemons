@@ -17,7 +17,7 @@ export const PokemonCard = ({ url, index }: Props) => {
     <View style={styles.card}>
       <View style={styles.spacing}>
         <View>
-          <Text style={styles.num}>#{`${data?.order}`.padStart(3, "0")}</Text>
+          <Text style={styles.num}>#{`${data?.id}`}</Text>
           <Text
             style={styles.name}
           >{`${data?.name.charAt(0).toUpperCase()}${data?.name?.slice(1)}`}</Text>

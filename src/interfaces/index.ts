@@ -1,7 +1,8 @@
 export interface PokemonsResponse {
   count: number;
   text: string;
-  previous: null;
+  previous: null | string;
+  next: string;
   results: PokemonResult[];
 }
 

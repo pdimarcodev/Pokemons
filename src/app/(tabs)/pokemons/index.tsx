@@ -2,30 +2,53 @@ import {
   ActivityIndicator,
   FlatList,
   Platform,
+  RefreshControl,
   StyleSheet,
 } from "react-native";
-
-import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
 import { useGetPokemons } from "@/hooks/useGetPokemons";
 import { PokemonCard } from "@/components/PokemonCard";
+import { useCallback, useRef, useState } from "react";
 
 export default function Pokemons() {
-  const { data, error, isLoading } = useGetPokemons();
+  const [nextUrl, setNextUrl] = useState<string>();
+  const { data, error, isValidating } = useGetPokemons({ nextUrl });
 
-  if (isLoading) {
+  const ref = useRef<FlatList>(null);
+  const onEndReachedCalledDuringMomentum = useRef<boolean>(true);
+
+  const loadMore = useCallback(() => {
+    if (!onEndReachedCalledDuringMomentum.current && data?.next) {
+      setNextUrl(data?.next);
+      onEndReachedCalledDuringMomentum.current = true;
+      ref?.current?.scrollToIndex({
+        index: 0,
+        animated: true,
+      });
+    }
+  }, [data?.next]);
+
+  const onMomentumScrollBegin = (): void => {
+    onEndReachedCalledDuringMomentum.current = false;
+  };
+
+  if (isValidating) {
     return <Text>Loading...</Text>;
   }
 
   return (
     <FlatList
+      ref={ref}
       data={data?.results}
+      numColumns={2}
       keyExtractor={(item) => item?.name}
       contentContainerStyle={{
         paddingTop: 50,
-        paddingBottom: 128,
+        paddingBottom: 150,
         paddingHorizontal: 20,
       }}
+      decelerationRate={0.5}
+      onScrollBeginDrag={onMomentumScrollBegin}
       // ItemSeparatorComponent={ItemDivider}
       // ListFooterComponent={ItemDivider}
       // ListEmptyComponent={
@@ -38,10 +61,10 @@ export default function Pokemons() {
       // 		/>
       // 	</View>
       // }
-      initialNumToRender={10}
-      windowSize={10}
-      removeClippedSubviews
-      maxToRenderPerBatch={5}
+      // initialNumToRender={10}
+      // windowSize={10}
+      // removeClippedSubviews
+      // maxToRenderPerBatch={5}
       showsVerticalScrollIndicator={false}
       renderItem={({ item: { url }, index }) => (
         <PokemonCard url={url} index={index} />
@@ -49,6 +72,14 @@ export default function Pokemons() {
       // ListFooterComponent={
       //   <ActivityIndicator size="large" style={styles.spinner} />
       // }
+      refreshControl={
+        <RefreshControl
+          refreshing={isValidating}
+          onRefresh={() => setNextUrl(data?.previous || "")}
+        />
+      }
+      onEndReached={loadMore}
+      onEndReachedThreshold={0.1}
     />
   );
 }
