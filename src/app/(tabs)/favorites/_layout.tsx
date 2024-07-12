@@ -1,14 +1,14 @@
 import { Stack } from "expo-router";
 import { View } from "react-native";
 
-const PokemonsScreenLayout = () => {
+const FavoritesScreenLayout = () => {
   return (
     // <View style={defaultStyles.container}>
     <Stack>
       <Stack.Screen
         name="index"
         options={{
-          headerShown: false,
+          headerTitle: "Favorites",
         }}
       />
     </Stack>
@@ -16,4 +16,4 @@ const PokemonsScreenLayout = () => {
   );
 };
 
-export default PokemonsScreenLayout;
+export default FavoritesScreenLayout;

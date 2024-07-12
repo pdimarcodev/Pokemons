@@ -19,6 +19,7 @@ export default function TabLayout() {
 
   return (
     <Tabs
+      // initialRouteName="pokemons"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         // Disable the static render of the header on web
@@ -48,9 +49,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="favorites"
         options={{
-          title: "Tab Two",
+          title: "Favorites",
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
