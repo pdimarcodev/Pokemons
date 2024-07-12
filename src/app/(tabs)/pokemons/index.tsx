@@ -41,12 +41,14 @@ export default function Pokemons() {
       ref={ref}
       data={data?.results}
       numColumns={2}
-      keyExtractor={(item) => item?.name}
+      keyExtractor={({ name }) => name}
       contentContainerStyle={{
         paddingTop: 50,
         paddingBottom: 150,
         paddingHorizontal: 20,
+        gap: 10,
       }}
+      columnWrapperStyle={{ gap: 10 }}
       decelerationRate={0.5}
       onScrollBeginDrag={onMomentumScrollBegin}
       // ItemSeparatorComponent={ItemDivider}
