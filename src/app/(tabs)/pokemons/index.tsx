@@ -6,7 +6,7 @@ import {
   RefreshControl,
   StyleSheet,
 } from "react-native";
-import { Text, View } from "@/components/Themed";
+import { Text } from "@/components/Themed";
 import { useGetPokemons } from "@/hooks/useGetPokemons";
 import { PokemonCard } from "@/components/PokemonCard";
 
@@ -68,8 +68,8 @@ export default function Pokemons() {
       // removeClippedSubviews
       // maxToRenderPerBatch={5}
       showsVerticalScrollIndicator={false}
-      renderItem={({ item: { url }, index }) => (
-        <PokemonCard url={url} index={index} />
+      renderItem={({ item: { name, url }, index }) => (
+        <PokemonCard name={name} url={url} index={index} />
       )}
       // ListFooterComponent={
       //   <ActivityIndicator size="large" style={styles.spinner} />

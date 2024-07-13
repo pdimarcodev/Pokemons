@@ -1,28 +1,72 @@
-import { ActivityIndicator, Image, StyleSheet, Text, View } from "react-native";
-import Animated, { FadeInUp } from "react-native-reanimated";
+import {
+  ActivityIndicator,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import { useRouter } from "expo-router";
+import Animated, {
+  Easing,
+  FadeInUp,
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withSequence,
+  withSpring,
+  withTiming,
+} from "react-native-reanimated";
 import { useGetPokemonByUrl } from "@/hooks/useGetPokemonByUrl";
 
 interface Props {
+  name: string;
   url: string;
   index: number;
 }
 
 const DELAY_FACTOR = 100;
+const PressableAnimated = Animated.createAnimatedComponent(Pressable);
 
-export const PokemonCard = ({ url, index }: Props) => {
+export const PokemonCard = ({ name, url, index }: Props) => {
   const { data, error, isValidating } = useGetPokemonByUrl({ url });
+  const router = useRouter();
+  const scale = useSharedValue(1);
+
+  const animatedContainerStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ scale: scale.value }],
+    };
+  });
+
+  function goToDetails() {
+    router.navigate(`/pokemons/${name}`);
+  }
+
+  function onPress() {
+    scale.value = withSequence(
+      withTiming(1.1, { easing: Easing.bounce, duration: 500 }),
+      withSpring(1, undefined, (isFinished) => {
+        if (isFinished) {
+          runOnJS(goToDetails)();
+        }
+      })
+    );
+  }
 
   return (
-    <Animated.View
-      entering={FadeInUp.delay(DELAY_FACTOR * index).springify()}
-      style={styles.card}
+    <PressableAnimated
+      onPress={onPress}
+      style={[styles.card, animatedContainerStyle]}
     >
       {isValidating ? (
         <View style={styles.loader}>
           <ActivityIndicator size="small" />
         </View>
       ) : (
-        <>
+        <Animated.View
+          entering={FadeInUp.delay(DELAY_FACTOR * index).springify()}
+        >
           <View style={styles.imageContainer}>
             <Image
               source={{ uri: data?.sprites?.front_shiny }}
@@ -38,9 +82,9 @@ export const PokemonCard = ({ url, index }: Props) => {
             >{`${data?.name.charAt(0).toUpperCase()}${data?.name?.slice(1)}`}</Text>
             <Text style={styles.id}>#{`${data?.id}`}</Text>
           </View>
-        </>
+        </Animated.View>
       )}
-    </Animated.View>
+    </PressableAnimated>
   );
 };
 
