@@ -1,11 +1,5 @@
-import {
-  ActivityIndicator,
-  Image,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { useMemo } from "react";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 import Animated, {
   Easing,
@@ -17,7 +11,9 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
+import Loader from "./Loader";
 import { useGetPokemonByUrl } from "@/hooks/useGetPokemonByUrl";
+import { capitalize } from "@/utils/capitalize";
 
 interface Props {
   name: string;
@@ -32,6 +28,7 @@ export const PokemonCard = ({ name, url, index }: Props) => {
   const { data, error, isValidating } = useGetPokemonByUrl({ url });
   const router = useRouter();
   const scale = useSharedValue(1);
+  const formattedPokemonsName = useMemo(() => capitalize(name), [name]);
 
   const animatedContainerStyle = useAnimatedStyle(() => {
     return {
@@ -40,7 +37,10 @@ export const PokemonCard = ({ name, url, index }: Props) => {
   });
 
   function goToDetails() {
-    router.navigate(`/pokemons/${name}`);
+    router.navigate({
+      pathname: `/pokemons/${name}`,
+      params: { formattedPokemonsName },
+    });
   }
 
   function onPress() {
@@ -60,9 +60,7 @@ export const PokemonCard = ({ name, url, index }: Props) => {
       style={[styles.card, animatedContainerStyle]}
     >
       {isValidating ? (
-        <View style={styles.loader}>
-          <ActivityIndicator size="small" />
-        </View>
+        <Loader size="small" />
       ) : (
         <Animated.View
           entering={FadeInUp.delay(DELAY_FACTOR * index).springify()}
@@ -75,11 +73,9 @@ export const PokemonCard = ({ name, url, index }: Props) => {
             />
           </View>
           <View style={styles.textContainer}>
-            <Text
-              numberOfLines={1}
-              adjustsFontSizeToFit
-              style={styles.name}
-            >{`${data?.name.charAt(0).toUpperCase()}${data?.name?.slice(1)}`}</Text>
+            <Text numberOfLines={1} adjustsFontSizeToFit style={styles.name}>
+              {formattedPokemonsName}
+            </Text>
             <Text style={styles.id}>#{`${data?.id}`}</Text>
           </View>
         </Animated.View>
