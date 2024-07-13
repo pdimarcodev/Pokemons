@@ -56,7 +56,7 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <SWRConfig value={{ fetcher, dedupingInterval: 2000 }}>
+      <SWRConfig value={{ fetcher, dedupingInterval: 5000 }}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: "modal" }} />
