@@ -1,14 +1,21 @@
-import { StyleSheet } from 'react-native';
+import { useEffect } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { useFavorites } from "@/hooks/useFavorites";
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+export default function Favorites() {
+  const { storedFavorites } = useFavorites();
 
-export default function TabTwoScreen() {
+  useEffect(() => {
+    console.log("PANTALLA FAVORITOS", storedFavorites);
+  }, [storedFavorites]);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/two.tsx" />
+      {storedFavorites?.map((favorite, index) => (
+        <Text style={styles.title} key={index}>
+          {favorite}
+        </Text>
+      ))}
     </View>
   );
 }
@@ -16,16 +23,17 @@ export default function TabTwoScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
+    color: "white",
   },
   separator: {
     marginVertical: 30,
     height: 1,
-    width: '80%',
+    width: "80%",
   },
 });

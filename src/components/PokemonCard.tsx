@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 import Animated, {
@@ -13,6 +13,7 @@ import Animated, {
 } from "react-native-reanimated";
 import Loader from "./Loader";
 import { useGetPokemonByName } from "@/hooks/useGetPokemonByName";
+import { useFavorites } from "@/hooks/useFavorites";
 import { capitalize } from "@/utils/capitalize";
 
 interface Props {
@@ -25,6 +26,7 @@ const PressableAnimated = Animated.createAnimatedComponent(Pressable);
 
 export const PokemonCard = ({ name, index }: Props) => {
   const { data, error, isValidating } = useGetPokemonByName({ name });
+  const { addFavorite, removeFavorite, storedFavorites } = useFavorites();
   const router = useRouter();
   const scale = useSharedValue(1);
   const formattedPokemonsName = useMemo(() => capitalize(name), [name]);
@@ -54,8 +56,17 @@ export const PokemonCard = ({ name, index }: Props) => {
   }
 
   function onLongPress() {
-    console.warn("Add to favorites");
+    // console.warn("Add to favorites");
+    if (storedFavorites.includes(name)) {
+      removeFavorite(name);
+    } else {
+      addFavorite(name);
+    }
   }
+
+  useEffect(() => {
+    console.log("PANTALLA HOME", storedFavorites);
+  }, [storedFavorites]);
 
   return (
     <PressableAnimated
