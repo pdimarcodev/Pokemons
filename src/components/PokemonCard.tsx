@@ -12,20 +12,19 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import Loader from "./Loader";
-import { useGetPokemonByUrl } from "@/hooks/useGetPokemonByUrl";
+import { useGetPokemonByName } from "@/hooks/useGetPokemonByName";
 import { capitalize } from "@/utils/capitalize";
 
 interface Props {
   name: string;
-  url: string;
   index: number;
 }
 
 const DELAY_FACTOR = 100;
 const PressableAnimated = Animated.createAnimatedComponent(Pressable);
 
-export const PokemonCard = ({ name, url, index }: Props) => {
-  const { data, error, isValidating } = useGetPokemonByUrl({ url });
+export const PokemonCard = ({ name, index }: Props) => {
+  const { data, error, isValidating } = useGetPokemonByName({ name });
   const router = useRouter();
   const scale = useSharedValue(1);
   const formattedPokemonsName = useMemo(() => capitalize(name), [name]);

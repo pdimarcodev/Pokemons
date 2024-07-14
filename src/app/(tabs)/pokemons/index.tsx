@@ -1,11 +1,5 @@
 import { useCallback, useRef, useState } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  Platform,
-  RefreshControl,
-  StyleSheet,
-} from "react-native";
+import { FlatList, Platform, RefreshControl, StyleSheet } from "react-native";
 import { Text } from "@/components/Themed";
 import { useGetPokemons } from "@/hooks/useGetPokemons";
 import { PokemonCard } from "@/components/PokemonCard";
@@ -28,7 +22,7 @@ export default function Pokemons() {
     }
   }, [data?.next]);
 
-  const onMomentumScrollBegin = (): void => {
+  const onMomentumScrollBegin = () => {
     onEndReachedCalledDuringMomentum.current = false;
   };
 
@@ -68,8 +62,8 @@ export default function Pokemons() {
       // removeClippedSubviews
       // maxToRenderPerBatch={5}
       showsVerticalScrollIndicator={false}
-      renderItem={({ item: { name, url }, index }) => (
-        <PokemonCard name={name} url={url} index={index} />
+      renderItem={({ item: { name }, index }) => (
+        <PokemonCard name={name} index={index} />
       )}
       // ListFooterComponent={
       //   <ActivityIndicator size="large" style={styles.spinner} />

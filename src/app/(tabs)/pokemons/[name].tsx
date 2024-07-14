@@ -11,7 +11,7 @@ type Params = {
 export default function PokemonDetailsScreen() {
   const { name, formattedPokemonsName } = useLocalSearchParams<Params>();
   const { data, error, isValidating } = useGetPokemonByName({
-    name: String(name),
+    name,
   });
 
   return (
