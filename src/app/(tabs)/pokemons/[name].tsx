@@ -29,27 +29,26 @@ export default function PokemonDetailsScreen() {
         <Loader size="large" />
       ) : (
         <>
-          <Text style={styles.text}>#{data?.order}</Text>
+          <Text style={styles.text}>#{data?.id}</Text>
           <PokemonsImages
             imagesUri={[
-              {
-                key: `${name}front_default`,
-                uri: data?.sprites?.front_default,
-              },
-              { key: `${name}back_default`, uri: data?.sprites?.back_default },
+              { uri: data?.sprites?.front_default },
+              { uri: data?.sprites?.back_default },
             ]}
           />
           <PokemonsImages
             imagesUri={[
-              { key: `${name}front_shiny`, uri: data?.sprites?.front_shiny },
-              { key: `${name}back_shiny`, uri: data?.sprites?.back_shiny },
+              { uri: data?.sprites?.front_shiny },
+              { uri: data?.sprites?.back_shiny },
             ]}
           />
           <Text style={styles.title}>Type</Text>
           <Text style={styles.text}>{data?.types?.[0].type?.name}</Text>
           <Text style={styles.title}>Abilities</Text>
-          {data?.abilities?.map((ability) => (
-            <Text style={styles.text}>{ability?.ability?.name}</Text>
+          {data?.abilities?.map((ability, index) => (
+            <Text key={index} style={styles.text}>
+              {ability?.ability?.name}
+            </Text>
           ))}
         </>
       )}

@@ -2,7 +2,6 @@ import { Image, StyleSheet, View } from "react-native";
 
 interface Props {
   imagesUri: Array<{
-    key: string;
     uri: string | undefined;
   }>;
 }
@@ -13,9 +12,9 @@ export default function PokemonsImages({ imagesUri }: Props) {
   return (
     <View style={styles.imagesContainer}>
       {imagesUri.map(
-        ({ key, uri }) =>
+        ({ uri }, index) =>
           uri && (
-            <View key={key} style={styles.imageContainer}>
+            <View key={index} style={styles.imageContainer}>
               <Image
                 source={{ uri }}
                 style={styles.image}

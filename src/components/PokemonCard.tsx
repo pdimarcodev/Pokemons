@@ -53,9 +53,14 @@ export const PokemonCard = ({ name, index }: Props) => {
     );
   }
 
+  function onLongPress() {
+    console.warn("Add to favorites");
+  }
+
   return (
     <PressableAnimated
       onPress={onPress}
+      onLongPress={onLongPress}
       style={[styles.card, animatedContainerStyle]}
     >
       {isValidating ? (
