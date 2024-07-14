@@ -3,6 +3,7 @@ import { FlatList, Platform, RefreshControl, StyleSheet } from "react-native";
 import { Text } from "@/components/Themed";
 import { useGetPokemons } from "@/hooks/useGetPokemons";
 import { PokemonCard } from "@/components/PokemonCard";
+import Loader from "@/components/Loader";
 
 export default function Pokemons() {
   const [nextUrl, setNextUrl] = useState<string>();
@@ -26,9 +27,7 @@ export default function Pokemons() {
     onEndReachedCalledDuringMomentum.current = false;
   };
 
-  if (isValidating) {
-    return <Text>Loading...</Text>;
-  }
+  if (isValidating) return <Loader size="large" />;
 
   return (
     <FlatList

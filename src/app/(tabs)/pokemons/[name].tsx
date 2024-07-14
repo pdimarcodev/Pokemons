@@ -1,7 +1,8 @@
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, ScrollView, Text } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
-import { useGetPokemonByName } from "@/hooks/useGetPokemonByName";
 import Loader from "@/components/Loader";
+import PokemonsImages from "@/components/PokemonsImages";
+import { useGetPokemonByName } from "@/hooks/useGetPokemonByName";
 
 type Params = {
   name: string;
@@ -15,71 +16,67 @@ export default function PokemonDetailsScreen() {
   });
 
   return (
-    <>
+    <ScrollView contentContainerStyle={styles.container}>
       <Stack.Screen
         options={{
           title: formattedPokemonsName || "",
+          headerTitleStyle: styles.headerTitleStyle,
           headerBackTitleVisible: false,
           gestureEnabled: true,
         }}
       />
-      <View style={styles.container}>
-        {isValidating ? (
-          <Loader size="large" />
-        ) : (
-          <>
-            <Text style={styles.text}>{formattedPokemonsName}</Text>
-            <View style={styles.imageContainer}>
-              <Image
-                source={{ uri: data?.sprites?.front_shiny }}
-                style={styles.image}
-                resizeMode="stretch"
-              />
-            </View>
-          </>
-        )}
-      </View>
-    </>
+      {isValidating ? (
+        <Loader size="large" />
+      ) : (
+        <>
+          <Text style={styles.text}>#{data?.order}</Text>
+          <PokemonsImages
+            imagesUri={[
+              {
+                key: `${name}front_default`,
+                uri: data?.sprites?.front_default,
+              },
+              { key: `${name}back_default`, uri: data?.sprites?.back_default },
+            ]}
+          />
+          <PokemonsImages
+            imagesUri={[
+              { key: `${name}front_shiny`, uri: data?.sprites?.front_shiny },
+              { key: `${name}back_shiny`, uri: data?.sprites?.back_shiny },
+            ]}
+          />
+          <Text style={styles.title}>Type</Text>
+          <Text style={styles.text}>{data?.types?.[0].type?.name}</Text>
+          <Text style={styles.title}>Abilities</Text>
+          {data?.abilities?.map((ability) => (
+            <Text style={styles.text}>{ability?.ability?.name}</Text>
+          ))}
+        </>
+      )}
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  headerTitleStyle: {
+    fontSize: 30,
+    fontWeight: "700",
+  },
   container: {
     backgroundColor: "black",
     flex: 1,
     padding: 10,
-  },
-  image: {
-    width: "100%",
-    aspectRatio: 1,
-  },
-  price: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginTop: "auto",
-  },
-
-  sizes: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginVertical: 10,
-  },
-  size: {
-    backgroundColor: "gainsboro",
-    width: 50,
-    aspectRatio: 1,
-    borderRadius: 25,
     alignItems: "center",
-    justifyContent: "center",
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "700",
+    color: "lightblue",
+    marginTop: 20,
   },
   text: {
     fontSize: 20,
     fontWeight: "500",
     color: "white",
-  },
-  imageContainer: {
-    width: 90,
-    height: 90,
-    alignSelf: "center",
   },
 });
