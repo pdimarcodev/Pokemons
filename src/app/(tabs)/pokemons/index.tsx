@@ -1,8 +1,8 @@
 import { useCallback, useRef, useState } from "react";
-import { FlatList, Platform, RefreshControl, StyleSheet } from "react-native";
-import { useGetPokemons } from "@/hooks/useGetPokemons";
+import { FlatList, RefreshControl, StyleSheet } from "react-native";
 import { PokemonCard } from "@/components/PokemonCard";
 import Loader from "@/components/Loader";
+import { useGetPokemons } from "@/hooks/useGetPokemons";
 import { useAppContext } from "@/context/AppContext";
 
 export default function Pokemons() {
@@ -36,31 +36,10 @@ export default function Pokemons() {
       data={data?.results}
       numColumns={2}
       keyExtractor={({ name }) => name}
-      contentContainerStyle={{
-        paddingTop: 50,
-        paddingBottom: 150,
-        paddingHorizontal: 20,
-        gap: 20,
-      }}
-      columnWrapperStyle={{ gap: 20 }}
+      contentContainerStyle={styles.flatlistContainer}
+      columnWrapperStyle={styles.flatlistColumn}
       decelerationRate={0.5}
       onScrollBeginDrag={onMomentumScrollBegin}
-      // ItemSeparatorComponent={ItemDivider}
-      // ListFooterComponent={ItemDivider}
-      // ListEmptyComponent={
-      // 	<View>
-      // 		<Text style={utilsStyles.emptyContentText}>No playlist found</Text>
-
-      // 		<FastImage
-      // 			source={{ uri: unknownTrackImageUri, priority: FastImage.priority.normal }}
-      // 			style={utilsStyles.emptyContentImage}
-      // 		/>
-      // 	</View>
-      // }
-      // initialNumToRender={10}
-      // windowSize={10}
-      // removeClippedSubviews
-      // maxToRenderPerBatch={5}
       showsVerticalScrollIndicator={false}
       renderItem={({ item: { name }, index }) => (
         <PokemonCard
@@ -69,9 +48,6 @@ export default function Pokemons() {
           isFavorite={favorites?.includes(name)}
         />
       )}
-      // ListFooterComponent={
-      //   <ActivityIndicator size="large" style={styles.spinner} />
-      // }
       refreshControl={
         <RefreshControl
           refreshing={isValidating}
@@ -84,8 +60,6 @@ export default function Pokemons() {
   );
 }
 
-// TODO: Borrar estilos no utilizados
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -96,23 +70,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
+  flatlistContainer: {
+    paddingTop: 50,
+    paddingBottom: 150,
+    paddingHorizontal: 20,
+    gap: 20,
   },
-  flatListContentContainer: {
-    paddingHorizontal: 5,
-    marginTop: Platform.OS === "android" ? 50 : 20,
-  },
-  activityIndicatorContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    top: 80,
-  },
-  spinner: {
-    marginTop: 20,
-    marginBottom: Platform.OS === "android" ? 120 : 80,
-  },
+  flatlistColumn: { gap: 20 },
 });

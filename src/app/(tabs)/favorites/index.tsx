@@ -1,34 +1,32 @@
-import { StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 import { useAppContext } from "@/context/AppContext";
+import { PokemonCard } from "@/components/PokemonCard";
 
 export default function Favorites() {
   const { favorites } = useAppContext();
 
   return (
-    <View style={styles.container}>
-      {favorites?.map((favorite, index) => (
-        <Text style={styles.title} key={index}>
-          {favorite}
-        </Text>
-      ))}
-    </View>
+    <FlatList
+      data={favorites}
+      numColumns={2}
+      keyExtractor={(favorite) => favorite}
+      contentContainerStyle={styles.flatlistContainer}
+      columnWrapperStyle={styles.flatlistColumn}
+      decelerationRate={0.5}
+      showsVerticalScrollIndicator={false}
+      renderItem={({ item: favorite, index }) => (
+        <PokemonCard name={favorite} index={index} isFavorite />
+      )}
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+  flatlistContainer: {
+    paddingTop: 50,
+    paddingBottom: 150,
+    paddingHorizontal: 20,
+    gap: 20,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "white",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
+  flatlistColumn: { gap: 20 },
 });

@@ -1,5 +1,12 @@
 import { useCallback, useMemo } from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Dimensions,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { useRouter } from "expo-router";
 import Animated, {
   Easing,
@@ -25,6 +32,7 @@ interface Props {
 
 const DELAY_FACTOR = 100;
 const PressableAnimated = Animated.createAnimatedComponent(Pressable);
+const { width: screenWidth } = Dimensions.get("window");
 
 export const PokemonCard = ({ name, index, isFavorite }: Props) => {
   const { data, error, isValidating } = useGetPokemonByName({ name });
@@ -95,7 +103,7 @@ export const PokemonCard = ({ name, index, isFavorite }: Props) => {
 
 const styles = StyleSheet.create({
   card: {
-    flex: 1,
+    width: screenWidth / 2 - 30,
     height: 130,
     borderRadius: 5,
     borderColor: "#0077B6",
