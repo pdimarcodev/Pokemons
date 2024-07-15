@@ -15,8 +15,6 @@ export const useFavorites = (): UseFavorites => {
   const getStoredFavorites = async () => {
     try {
       const stored = await AsyncStorage.getItem(KEY);
-      console.log("FAVORITOS", stored ? JSON.parse(stored) : []);
-
       return stored ? JSON.parse(stored) : [];
     } catch (error) {
       console.error("Error getting stored favorites!", error);
@@ -28,9 +26,10 @@ export const useFavorites = (): UseFavorites => {
 
     try {
       let favorites = await getStoredFavorites();
-      if (favorites.includes(item)) return;
-      favorites.push(item);
 
+      if (favorites.includes(item)) return;
+
+      favorites.push(item);
       await AsyncStorage.setItem(KEY, JSON.stringify(favorites));
       setFavorites(favorites);
     } catch (error) {
@@ -46,9 +45,10 @@ export const useFavorites = (): UseFavorites => {
       const index = favorites.findIndex(
         (favorite: string) => favorite === item
       );
-      if (index === -1) return;
-      favorites.splice(index, 1);
 
+      if (index === -1) return;
+
+      favorites.splice(index, 1);
       await AsyncStorage.setItem(KEY, JSON.stringify(favorites));
       setFavorites(favorites);
     } catch (error) {
