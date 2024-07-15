@@ -4,10 +4,12 @@ import { Text } from "@/components/Themed";
 import { useGetPokemons } from "@/hooks/useGetPokemons";
 import { PokemonCard } from "@/components/PokemonCard";
 import Loader from "@/components/Loader";
+import { useAppContext } from "@/context/AppContext";
 
 export default function Pokemons() {
   const [nextUrl, setNextUrl] = useState<string>();
   const { data, error, isValidating } = useGetPokemons({ nextUrl });
+  const { favorites } = useAppContext();
 
   const ref = useRef<FlatList>(null);
   const onEndReachedCalledDuringMomentum = useRef<boolean>(true);
@@ -62,7 +64,11 @@ export default function Pokemons() {
       // maxToRenderPerBatch={5}
       showsVerticalScrollIndicator={false}
       renderItem={({ item: { name }, index }) => (
-        <PokemonCard name={name} index={index} />
+        <PokemonCard
+          name={name}
+          index={index}
+          isFavorite={favorites?.includes(name)}
+        />
       )}
       // ListFooterComponent={
       //   <ActivityIndicator size="large" style={styles.spinner} />

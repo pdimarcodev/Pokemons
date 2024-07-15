@@ -10,9 +10,11 @@ import Animated, {
   withSequence,
   withSpring,
   withTiming,
+  ZoomIn,
+  ZoomOut,
 } from "react-native-reanimated";
+import { AntDesign } from "@expo/vector-icons";
 import Loader from "./Loader";
-import { useAppContext } from "@/context/AppContext";
 import { useGetPokemonByName } from "@/hooks/useGetPokemonByName";
 import { useFavorites } from "@/hooks/useFavorites";
 import { capitalize } from "@/utils/capitalize";
@@ -20,14 +22,14 @@ import { capitalize } from "@/utils/capitalize";
 interface Props {
   name: string;
   index: number;
+  isFavorite?: boolean;
 }
 
 const DELAY_FACTOR = 100;
 const PressableAnimated = Animated.createAnimatedComponent(Pressable);
 
-export const PokemonCard = ({ name, index }: Props) => {
+export const PokemonCard = ({ name, index, isFavorite }: Props) => {
   const { data, error, isValidating } = useGetPokemonByName({ name });
-  const { favorites } = useAppContext();
   const { addFavorite, removeFavorite } = useFavorites();
   const router = useRouter();
   const scale = useSharedValue(1);
@@ -59,7 +61,7 @@ export const PokemonCard = ({ name, index }: Props) => {
 
   function onLongPress() {
     // console.warn("Add to favorites");
-    if (favorites?.includes(name)) {
+    if (isFavorite) {
       removeFavorite(name);
     } else {
       addFavorite(name);
@@ -72,12 +74,22 @@ export const PokemonCard = ({ name, index }: Props) => {
       onLongPress={onLongPress}
       style={[styles.card, animatedContainerStyle]}
     >
-      {isValidating || typeof favorites === undefined ? (
+      {isValidating || typeof isFavorite === undefined ? (
         <Loader size="small" />
       ) : (
         <Animated.View
           entering={FadeInUp.delay(DELAY_FACTOR * index).springify()}
         >
+          {isFavorite && (
+            <Animated.View entering={ZoomIn} exiting={ZoomOut}>
+              <AntDesign
+                name="star"
+                size={24}
+                color="#ff4d6d"
+                style={styles.star}
+              />
+            </Animated.View>
+          )}
           <View style={styles.imageContainer}>
             <Image
               source={{ uri: data?.sprites?.front_shiny }}
@@ -107,6 +119,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     paddingBottom: 10,
     backgroundColor: "#003566",
+    position: "relative",
   },
   imageContainer: {
     width: 90,
@@ -133,9 +146,10 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 11,
   },
-  loader: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+  star: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    zIndex: 10,
   },
 });
