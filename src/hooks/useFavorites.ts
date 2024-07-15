@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAppContext } from "@/context/AppContext";
 
 interface UseFavorites {
-  storedFavorites: Array<string>;
+  getStoredFavorites: () => Promise<Array<string>>;
   addFavorite: (item: string) => void;
   removeFavorite: (item: string) => void;
 }
@@ -10,7 +10,7 @@ interface UseFavorites {
 const KEY = "favorites";
 
 export const useFavorites = (): UseFavorites => {
-  const [storedFavorites, setStoredFavorites] = useState<Array<string>>([]);
+  const { setFavorites } = useAppContext();
 
   const getStoredFavorites = async () => {
     try {
@@ -23,15 +23,6 @@ export const useFavorites = (): UseFavorites => {
     }
   };
 
-  const getInitialFavorites = async () => {
-    try {
-      const stored = await getStoredFavorites();
-      setStoredFavorites(stored);
-    } catch (error) {
-      console.error("Error getting initial favorites!", error);
-    }
-  };
-
   const addFavorite = async (item: string) => {
     if (typeof item !== "string") return;
 
@@ -41,7 +32,7 @@ export const useFavorites = (): UseFavorites => {
       favorites.push(item);
 
       await AsyncStorage.setItem(KEY, JSON.stringify(favorites));
-      setStoredFavorites(favorites);
+      setFavorites(favorites);
     } catch (error) {
       console.error("Error adding favorite!", error);
     }
@@ -59,15 +50,11 @@ export const useFavorites = (): UseFavorites => {
       favorites.splice(index, 1);
 
       await AsyncStorage.setItem(KEY, JSON.stringify(favorites));
-      setStoredFavorites(favorites);
+      setFavorites(favorites);
     } catch (error) {
       console.error("Error removing favorite!", error);
     }
   };
 
-  useEffect(() => {
-    getInitialFavorites();
-  }, []);
-
-  return { storedFavorites, addFavorite, removeFavorite };
+  return { getStoredFavorites, addFavorite, removeFavorite };
 };

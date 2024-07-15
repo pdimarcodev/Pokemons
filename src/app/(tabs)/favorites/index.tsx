@@ -1,17 +1,12 @@
-import { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { useFavorites } from "@/hooks/useFavorites";
+import { useAppContext } from "@/context/AppContext";
 
 export default function Favorites() {
-  const { storedFavorites } = useFavorites();
-
-  useEffect(() => {
-    console.log("PANTALLA FAVORITOS", storedFavorites);
-  }, [storedFavorites]);
+  const { favorites } = useAppContext();
 
   return (
     <View style={styles.container}>
-      {storedFavorites?.map((favorite, index) => (
+      {favorites?.map((favorite, index) => (
         <Text style={styles.title} key={index}>
           {favorite}
         </Text>

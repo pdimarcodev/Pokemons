@@ -1,3 +1,5 @@
+import "react-native-reanimated";
+import { useEffect } from "react";
 import { SWRConfig } from "swr";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import {
@@ -8,9 +10,7 @@ import {
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
-import "react-native-reanimated";
-
+import ContextProvider from "@/context/Provider";
 import { useColorScheme } from "@/components/useColorScheme";
 import { fetcher } from "@/utils/fetcher";
 
@@ -55,13 +55,15 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <SWRConfig value={{ fetcher, dedupingInterval: 5000 }}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-        </Stack>
-      </SWRConfig>
-    </ThemeProvider>
+    <ContextProvider>
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <SWRConfig value={{ fetcher, dedupingInterval: 5000 }}>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+          </Stack>
+        </SWRConfig>
+      </ThemeProvider>
+    </ContextProvider>
   );
 }
