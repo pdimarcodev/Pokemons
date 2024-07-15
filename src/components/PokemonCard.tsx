@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 import Animated, {
@@ -10,11 +10,9 @@ import Animated, {
   withSequence,
   withSpring,
   withTiming,
-  ZoomIn,
-  ZoomOut,
 } from "react-native-reanimated";
-import { AntDesign } from "@expo/vector-icons";
 import Loader from "./Loader";
+import { Star } from "./Star";
 import { useGetPokemonByName } from "@/hooks/useGetPokemonByName";
 import { useFavorites } from "@/hooks/useFavorites";
 import { capitalize } from "@/utils/capitalize";
@@ -30,7 +28,7 @@ const PressableAnimated = Animated.createAnimatedComponent(Pressable);
 
 export const PokemonCard = ({ name, index, isFavorite }: Props) => {
   const { data, error, isValidating } = useGetPokemonByName({ name });
-  const { addFavorite, removeFavorite } = useFavorites();
+  const { toggleFavorite } = useFavorites({ name, isFavorite });
   const router = useRouter();
   const scale = useSharedValue(1);
   const formattedPokemonsName = useMemo(() => capitalize(name), [name]);
@@ -48,7 +46,7 @@ export const PokemonCard = ({ name, index, isFavorite }: Props) => {
     });
   }
 
-  function onPress() {
+  const onPress = useCallback(() => {
     scale.value = withSequence(
       withTiming(1.1, { easing: Easing.bounce, duration: 500 }),
       withSpring(1, undefined, (isFinished) => {
@@ -57,16 +55,11 @@ export const PokemonCard = ({ name, index, isFavorite }: Props) => {
         }
       })
     );
-  }
+  }, []);
 
-  function onLongPress() {
-    // console.warn("Add to favorites");
-    if (isFavorite) {
-      removeFavorite(name);
-    } else {
-      addFavorite(name);
-    }
-  }
+  const onLongPress = useCallback(() => {
+    toggleFavorite();
+  }, []);
 
   return (
     <PressableAnimated
@@ -80,16 +73,7 @@ export const PokemonCard = ({ name, index, isFavorite }: Props) => {
         <Animated.View
           entering={FadeInUp.delay(DELAY_FACTOR * index).springify()}
         >
-          {isFavorite && (
-            <Animated.View entering={ZoomIn} exiting={ZoomOut}>
-              <AntDesign
-                name="star"
-                size={24}
-                color="#ff4d6d"
-                style={styles.star}
-              />
-            </Animated.View>
-          )}
+          {isFavorite && <Star size={24} style={styles.star} />}
           <View style={styles.imageContainer}>
             <Image
               source={{ uri: data?.sprites?.front_shiny }}

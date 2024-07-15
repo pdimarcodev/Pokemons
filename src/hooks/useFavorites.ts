@@ -2,14 +2,21 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAppContext } from "@/context/AppContext";
 
 interface UseFavorites {
+  name?: string;
+  isFavorite?: boolean;
+}
+
+interface UseFavoritesReturnType {
   getStoredFavorites: () => Promise<Array<string>>;
-  addFavorite: (item: string) => void;
-  removeFavorite: (item: string) => void;
+  toggleFavorite: () => void;
 }
 
 const KEY = "favorites";
 
-export const useFavorites = (): UseFavorites => {
+export const useFavorites = ({
+  name,
+  isFavorite,
+}: UseFavorites = {}): UseFavoritesReturnType => {
   const { setFavorites } = useAppContext();
 
   const getStoredFavorites = async () => {
@@ -56,5 +63,17 @@ export const useFavorites = (): UseFavorites => {
     }
   };
 
-  return { getStoredFavorites, addFavorite, removeFavorite };
+  const toggleFavorite = () => {
+    if (typeof name === "undefined" || typeof isFavorite === "undefined")
+      return;
+
+    if (isFavorite) {
+      removeFavorite(name);
+      return;
+    }
+
+    addFavorite(name);
+  };
+
+  return { getStoredFavorites, toggleFavorite };
 };

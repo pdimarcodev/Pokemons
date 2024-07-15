@@ -1,6 +1,5 @@
 import { useCallback, useRef, useState } from "react";
 import { FlatList, Platform, RefreshControl, StyleSheet } from "react-native";
-import { Text } from "@/components/Themed";
 import { useGetPokemons } from "@/hooks/useGetPokemons";
 import { PokemonCard } from "@/components/PokemonCard";
 import Loader from "@/components/Loader";

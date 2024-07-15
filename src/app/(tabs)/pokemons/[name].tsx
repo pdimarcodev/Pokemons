@@ -1,8 +1,12 @@
-import { StyleSheet, ScrollView, Text } from "react-native";
+import { useCallback, useMemo } from "react";
+import { StyleSheet, ScrollView, Text, Pressable } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
 import Loader from "@/components/Loader";
+import { Star } from "@/components/Star";
 import PokemonsImages from "@/components/PokemonsImages";
 import { useGetPokemonByName } from "@/hooks/useGetPokemonByName";
+import { useAppContext } from "@/context/AppContext";
+import { useFavorites } from "@/hooks/useFavorites";
 
 type Params = {
   name: string;
@@ -11,9 +15,19 @@ type Params = {
 
 export default function PokemonDetailsScreen() {
   const { name, formattedPokemonsName } = useLocalSearchParams<Params>();
+  const { favorites } = useAppContext();
   const { data, error, isValidating } = useGetPokemonByName({
     name,
   });
+  const isFavorite = useMemo(
+    () => favorites?.includes(name ?? ""),
+    [favorites, name]
+  );
+  const { toggleFavorite } = useFavorites({ name, isFavorite });
+
+  const onLongPress = useCallback(() => {
+    toggleFavorite();
+  }, []);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -25,10 +39,15 @@ export default function PokemonDetailsScreen() {
           gestureEnabled: true,
         }}
       />
-      {isValidating ? (
+      {isValidating || typeof favorites === undefined ? (
         <Loader size="large" />
       ) : (
         <>
+          {isFavorite && (
+            <Pressable onLongPress={onLongPress} style={styles.star}>
+              <Star size={50} style={styles.star} />
+            </Pressable>
+          )}
           <Text style={styles.text}>#{data?.id}</Text>
           <PokemonsImages
             imagesUri={[
@@ -66,6 +85,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     alignItems: "center",
+    position: "relative",
   },
   title: {
     fontSize: 24,
@@ -77,5 +97,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "500",
     color: "white",
+  },
+  star: {
+    position: "absolute",
+    top: 5,
+    right: 20,
+    zIndex: 10,
   },
 });
