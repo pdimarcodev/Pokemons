@@ -1,5 +1,7 @@
 import "react-native-reanimated";
 import { useEffect } from "react";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { SWRConfig } from "swr";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import {
@@ -56,21 +58,26 @@ function RootLayoutNav() {
 
   return (
     <ContextProvider>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <SWRConfig
-          value={{
-            fetcher,
-            revalidateIfStale: false,
-            revalidateOnFocus: false,
-            revalidateOnReconnect: false,
-          }}
+      <SafeAreaProvider>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-          </Stack>
-        </SWRConfig>
-      </ThemeProvider>
+          <SWRConfig
+            value={{
+              fetcher,
+              revalidateIfStale: false,
+              revalidateOnFocus: false,
+              revalidateOnReconnect: false,
+            }}
+          >
+            <StatusBar style="dark" />
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+            </Stack>
+          </SWRConfig>
+        </ThemeProvider>
+      </SafeAreaProvider>
     </ContextProvider>
   );
 }
