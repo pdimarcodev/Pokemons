@@ -45,7 +45,7 @@ export default function PokemonDetailsScreen() {
         <>
           {isFavorite && (
             <Pressable onLongPress={onLongPress} style={styles.star}>
-              <Star size={50} style={styles.star} />
+              <Star size={50} />
             </Pressable>
           )}
           <Text style={styles.text}>#{data?.id}</Text>
