@@ -1,6 +1,12 @@
 import { useCallback, useMemo } from "react";
 import { StyleSheet, ScrollView, Text, Pressable } from "react-native";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { StackActions } from "@react-navigation/native";
+import {
+  Stack,
+  useFocusEffect,
+  useLocalSearchParams,
+  useNavigation,
+} from "expo-router";
 import Loader from "@/components/Loader";
 import { Star } from "@/components/Star";
 import PokemonsImages from "@/components/PokemonsImages";
@@ -16,6 +22,7 @@ type Params = {
 export default function PokemonDetailsScreen() {
   const { name, formattedPokemonsName } = useLocalSearchParams<Params>();
   const { favorites } = useAppContext();
+  const navigation = useNavigation();
   const { data, error, isValidating } = useGetPokemonByName({
     name,
   });
@@ -28,6 +35,16 @@ export default function PokemonDetailsScreen() {
   const onLongPress = useCallback(() => {
     toggleFavorite();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        if (navigation.canGoBack()) {
+          navigation.dispatch(StackActions.popToTop());
+        }
+      };
+    }, [navigation])
+  );
 
   return (
     <ScrollView contentContainerStyle={styles.container}>

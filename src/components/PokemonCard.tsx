@@ -51,7 +51,7 @@ export const PokemonCard = ({ name, index, isFavorite }: Props) => {
   });
 
   function goToDetails() {
-    router.push({
+    router.navigate({
       pathname: `/${segments[SEGMENT_INDEX]}/${name}`,
       params: { formattedPokemonsName },
     });
