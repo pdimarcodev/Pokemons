@@ -1,13 +1,26 @@
-import { FlatList, StyleSheet } from "react-native";
+import { useMemo } from "react";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useAppContext } from "@/context/AppContext";
 import { PokemonCard } from "@/components/PokemonCard";
+
+const EmptyState = () => (
+  <View style={styles.emptyStateContainer}>
+    <Text style={styles.emptyStateText}>There are no favorites yet!</Text>
+    <Text style={styles.emptyStateText}>Go and choose one!</Text>
+  </View>
+);
 
 export default function Favorites() {
   const { favorites } = useAppContext();
 
+  if (typeof favorites === undefined) return null;
+  if (!favorites?.length) return <EmptyState />;
+
+  const sortedFavorites = useMemo(() => favorites.sort(), [favorites]);
+
   return (
     <FlatList
-      data={favorites}
+      data={sortedFavorites}
       numColumns={2}
       keyExtractor={(favorite) => favorite}
       style={styles.container}
@@ -35,4 +48,14 @@ const styles = StyleSheet.create({
     gap: 20,
   },
   flatlistColumn: { gap: 20 },
+  emptyStateContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  emptyStateText: {
+    color: "yellow",
+    fontSize: 20,
+    textAlign: "center",
+  },
 });
