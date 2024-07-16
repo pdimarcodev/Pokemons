@@ -70,6 +70,7 @@ export default function PokemonDetailsScreen() {
           <Text style={styles.text}>#{data?.id}</Text>
           <PokemonsImages imageType="default" sprites={data?.sprites} />
           <PokemonsImages imageType="shiny" sprites={data?.sprites} />
+          <Text style={styles.caption}>Tap image to flip</Text>
           <Text style={styles.title}>Type</Text>
           <Text style={styles.text}>{data?.types?.[0].type?.name}</Text>
           <Text style={styles.title}>Abilities</Text>
@@ -112,6 +113,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "500",
     color: "white",
+  },
+  caption: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "yellow",
   },
   star: {
     position: "absolute",
