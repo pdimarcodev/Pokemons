@@ -87,7 +87,7 @@ export default function PokemonDetailsScreen() {
 
 const styles = StyleSheet.create({
   headerTitleStyle: {
-    fontSize: 30,
+    fontSize: 26,
     fontWeight: "700",
     color: "white",
   },
