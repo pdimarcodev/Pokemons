@@ -28,6 +28,10 @@ export default function Pokemons() {
     onEndReachedCalledDuringMomentum.current = false;
   };
 
+  const onRefresh = () => {
+    setNextUrl(data?.previous || "");
+  };
+
   if (isValidating) return <Loader size="large" />;
 
   return (
@@ -50,10 +54,7 @@ export default function Pokemons() {
         />
       )}
       refreshControl={
-        <RefreshControl
-          refreshing={isValidating}
-          onRefresh={() => setNextUrl(data?.previous || "")}
-        />
+        <RefreshControl refreshing={isValidating} onRefresh={onRefresh} />
       }
       onEndReached={loadMore}
       onEndReachedThreshold={0.1}
