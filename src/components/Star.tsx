@@ -1,15 +1,19 @@
-import Animated, { StyleProps, ZoomIn, ZoomOut } from "react-native-reanimated";
+import Animated, { ZoomIn, ZoomOut } from "react-native-reanimated";
 import { AntDesign } from "@expo/vector-icons";
 
 interface Props {
+  isFavorite?: boolean;
   size: number;
-  style?: StyleProps;
 }
 
-export function Star({ size, style }: Props) {
+export function Star({ isFavorite, size }: Props) {
   return (
-    <Animated.View entering={ZoomIn} exiting={ZoomOut} style={style}>
-      <AntDesign name="star" size={size} color="#ff4d6d" />
+    <Animated.View entering={ZoomIn} exiting={ZoomOut}>
+      <AntDesign
+        name={isFavorite ? "star" : "staro"}
+        size={size}
+        color="#ff4d6d"
+      />
     </Animated.View>
   );
 }

@@ -84,7 +84,9 @@ export const PokemonCard = ({ name, index, isFavorite }: Props) => {
         <Animated.View
           entering={FadeInUp.delay(DELAY_FACTOR * index).springify()}
         >
-          {isFavorite && <Star size={24} style={styles.star} />}
+          <View style={styles.star}>
+            <Star isFavorite={isFavorite} size={24} />
+          </View>
           <View style={styles.imageContainer}>
             <Image
               source={{ uri: data?.sprites?.front_shiny }}

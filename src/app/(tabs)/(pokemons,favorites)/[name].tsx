@@ -43,11 +43,9 @@ export default function PokemonDetailsScreen() {
         <Loader size="large" />
       ) : (
         <>
-          {isFavorite && (
-            <Pressable onLongPress={onLongPress} style={styles.star}>
-              <Star size={50} />
-            </Pressable>
-          )}
+          <Pressable onLongPress={onLongPress} style={styles.star}>
+            <Star isFavorite={isFavorite} size={50} />
+          </Pressable>
           <Text style={styles.text}>#{data?.id}</Text>
           <PokemonsImages
             imagesUri={[
