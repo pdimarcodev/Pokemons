@@ -1,42 +1,47 @@
-import { Image, StyleSheet, View } from "react-native";
+import { memo } from "react";
+import { Image, StyleSheet } from "react-native";
+import FlipView from "./FlipView";
+import { Sprites } from "@/interfaces";
 
-interface Props {
-  imagesUri: Array<{
-    uri: string | undefined;
-  }>;
+type ImageType = "default" | "shiny" | "female" | "shiny_female";
+
+interface PokemonsImagesProps {
+  imageType: ImageType;
+  sprites?: Sprites;
 }
 
-export default function PokemonsImages({ imagesUri }: Props) {
-  if (!imagesUri?.length) return null;
+interface PokemonImageProps {
+  uri: string;
+}
+
+const PokemonImage = memo(({ uri }: PokemonImageProps) => (
+  <Image source={{ uri }} style={styles.image} resizeMode="stretch" />
+));
+
+export default function PokemonsImages({
+  imageType,
+  sprites,
+}: PokemonsImagesProps) {
+  if (!sprites) return null;
 
   return (
-    <View style={styles.imagesContainer}>
-      {imagesUri.map(
-        ({ uri }, index) =>
-          uri && (
-            <View key={index} style={styles.imageContainer}>
-              <Image
-                source={{ uri }}
-                style={styles.image}
-                resizeMode="stretch"
-              />
-            </View>
-          )
-      )}
-    </View>
+    <FlipView
+      containerStyle={styles.cardContainer}
+      RegularContent={
+        <PokemonImage uri={sprites[`front_${imageType}`] as string} />
+      }
+      FlippedContent={
+        <PokemonImage uri={sprites[`back_${imageType}`] as string} />
+      }
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  imagesContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginVertical: 10,
-  },
-  imageContainer: {
+  cardContainer: {
+    height: 150,
     width: 150,
-    height: "auto",
-    alignSelf: "center",
+    marginVertical: 10,
   },
   image: {
     width: "100%",

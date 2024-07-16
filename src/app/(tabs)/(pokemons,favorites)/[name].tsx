@@ -64,18 +64,8 @@ export default function PokemonDetailsScreen() {
             <Star isFavorite={isFavorite} size={50} />
           </Pressable>
           <Text style={styles.text}>#{data?.id}</Text>
-          <PokemonsImages
-            imagesUri={[
-              { uri: data?.sprites?.front_default },
-              { uri: data?.sprites?.back_default },
-            ]}
-          />
-          <PokemonsImages
-            imagesUri={[
-              { uri: data?.sprites?.front_shiny },
-              { uri: data?.sprites?.back_shiny },
-            ]}
-          />
+          <PokemonsImages imageType="default" sprites={data?.sprites} />
+          <PokemonsImages imageType="shiny" sprites={data?.sprites} />
           <Text style={styles.title}>Type</Text>
           <Text style={styles.text}>{data?.types?.[0].type?.name}</Text>
           <Text style={styles.title}>Abilities</Text>
@@ -97,7 +87,6 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: "black",
-    flex: 1,
     padding: 10,
     alignItems: "center",
     position: "relative",
