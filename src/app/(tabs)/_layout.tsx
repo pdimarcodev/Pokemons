@@ -17,9 +17,33 @@ export default function TabLayout() {
   return (
     <Tabs
       initialRouteName="(pokemons)"
+      sceneContainerStyle={{ backgroundColor: "#111111" }}
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: useClientOnlyValue(false, true),
+        headerStyle: {
+          backgroundColor: "#111111",
+          borderBottomWidth: 0,
+          shadowOpacity: 0.75,
+          shadowRadius: 5,
+          shadowColor: "grey",
+          shadowOffset: { height: 3, width: 0 },
+          elevation: 5,
+        },
+        headerTitleStyle: {
+          fontWeight: "bold",
+          fontSize: 20,
+          color: "white",
+        },
+        tabBarStyle: {
+          backgroundColor: "#111111",
+          borderTopWidth: 0,
+          shadowOpacity: 0.75,
+          shadowRadius: 5,
+          shadowColor: "grey",
+          shadowOffset: { height: -3, width: 0 },
+          elevation: 5,
+        },
       }}
     >
       <Tabs.Screen

@@ -47,11 +47,15 @@ export default function PokemonDetailsScreen() {
   );
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.scrollViewContainer}
+    >
       <Stack.Screen
         options={{
           title: formattedPokemonsName || "",
           headerTitleStyle: styles.headerTitleStyle,
+          headerStyle: styles.headerStyle,
           headerBackTitleVisible: false,
           gestureEnabled: true,
         }}
@@ -84,8 +88,15 @@ const styles = StyleSheet.create({
   headerTitleStyle: {
     fontSize: 30,
     fontWeight: "700",
+    color: "white",
+  },
+  headerStyle: {
+    backgroundColor: "#111111",
   },
   container: {
+    backgroundColor: "black",
+  },
+  scrollViewContainer: {
     backgroundColor: "black",
     padding: 10,
     alignItems: "center",

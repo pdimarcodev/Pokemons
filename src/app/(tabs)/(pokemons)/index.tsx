@@ -36,6 +36,7 @@ export default function Pokemons() {
       data={data?.results}
       numColumns={2}
       keyExtractor={({ name }) => name}
+      style={styles.container}
       contentContainerStyle={styles.flatlistContainer}
       columnWrapperStyle={styles.flatlistColumn}
       decelerationRate={0.5}
@@ -63,14 +64,14 @@ export default function Pokemons() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: "black",
   },
   title: {
     fontSize: 20,
     fontWeight: "bold",
   },
   flatlistContainer: {
+    backgroundColor: "black",
     paddingTop: 50,
     paddingBottom: 150,
     paddingHorizontal: 20,

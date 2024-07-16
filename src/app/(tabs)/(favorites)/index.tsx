@@ -10,6 +10,7 @@ export default function Favorites() {
       data={favorites}
       numColumns={2}
       keyExtractor={(favorite) => favorite}
+      style={styles.container}
       contentContainerStyle={styles.flatlistContainer}
       columnWrapperStyle={styles.flatlistColumn}
       decelerationRate={0.5}
@@ -22,7 +23,12 @@ export default function Favorites() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "black",
+  },
   flatlistContainer: {
+    backgroundColor: "black",
     paddingTop: 50,
     paddingBottom: 150,
     paddingHorizontal: 20,
