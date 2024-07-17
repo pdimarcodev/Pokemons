@@ -1,19 +1,13 @@
 import { useCallback, useMemo } from "react";
 import { StyleSheet, ScrollView, Text, Pressable } from "react-native";
-import { StackActions } from "@react-navigation/native";
-import {
-  Stack,
-  useFocusEffect,
-  useLocalSearchParams,
-  useNavigation,
-} from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import Loader from "@/components/Loader";
 import { Star } from "@/components/Star";
 import PokemonsImages from "@/components/PokemonsImages";
+import ErrorMessage from "@/components/Error";
 import { useGetPokemonByName } from "@/hooks/useGetPokemonByName";
 import { useAppContext } from "@/context/AppContext";
 import { useFavorites } from "@/hooks/useFavorites";
-import ErrorMessage from "@/components/Error";
 
 type Params = {
   name: string;
@@ -23,7 +17,6 @@ type Params = {
 export default function PokemonDetailsScreen() {
   const { name, formattedPokemonsName } = useLocalSearchParams<Params>();
   const { favorites } = useAppContext();
-  const navigation = useNavigation();
   const { data, error, isValidating, mutate } = useGetPokemonByName({
     name,
   });
@@ -36,16 +29,6 @@ export default function PokemonDetailsScreen() {
   const onLongPress = useCallback(() => {
     toggleFavorite();
   }, []);
-
-  useFocusEffect(
-    useCallback(() => {
-      return () => {
-        if (navigation.canGoBack()) {
-          navigation.dispatch(StackActions.popToTop());
-        }
-      };
-    }, [navigation])
-  );
 
   const retry = useCallback(() => {
     mutate?.();

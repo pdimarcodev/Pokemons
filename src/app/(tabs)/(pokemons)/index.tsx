@@ -2,9 +2,9 @@ import { useCallback, useRef, useState } from "react";
 import { FlatList, RefreshControl, StyleSheet } from "react-native";
 import { PokemonCard } from "@/components/PokemonCard";
 import Loader from "@/components/Loader";
+import ErrorMessage from "@/components/Error";
 import { useGetPokemons } from "@/hooks/useGetPokemons";
 import { useAppContext } from "@/context/AppContext";
-import ErrorMessage from "@/components/Error";
 
 export default function Pokemons() {
   const [nextUrl, setNextUrl] = useState<string>();
