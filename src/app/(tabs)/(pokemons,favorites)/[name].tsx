@@ -13,6 +13,7 @@ import PokemonsImages from "@/components/PokemonsImages";
 import { useGetPokemonByName } from "@/hooks/useGetPokemonByName";
 import { useAppContext } from "@/context/AppContext";
 import { useFavorites } from "@/hooks/useFavorites";
+import ErrorMessage from "@/components/Error";
 
 type Params = {
   name: string;
@@ -23,7 +24,7 @@ export default function PokemonDetailsScreen() {
   const { name, formattedPokemonsName } = useLocalSearchParams<Params>();
   const { favorites } = useAppContext();
   const navigation = useNavigation();
-  const { data, error, isValidating } = useGetPokemonByName({
+  const { data, error, isValidating, mutate } = useGetPokemonByName({
     name,
   });
   const isFavorite = useMemo(
@@ -45,6 +46,12 @@ export default function PokemonDetailsScreen() {
       };
     }, [navigation])
   );
+
+  const retry = useCallback(() => {
+    mutate?.();
+  }, [mutate]);
+
+  if (error) return <ErrorMessage retry={retry} />;
 
   return (
     <ScrollView

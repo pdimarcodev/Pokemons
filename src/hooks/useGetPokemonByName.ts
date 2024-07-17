@@ -9,7 +9,7 @@ interface UseGetPokemonByName {
 export const useGetPokemonByName = ({ name }: UseGetPokemonByName) => {
   if (!name) return {};
 
-  const { data, error, isLoading, isValidating } = useSWR<Pokemon>(
+  const { data, error, isLoading, isValidating, mutate } = useSWR<Pokemon>(
     `${POKEMON_API}/pokemon/${name}`
   );
 
@@ -18,5 +18,6 @@ export const useGetPokemonByName = ({ name }: UseGetPokemonByName) => {
     error,
     isLoading,
     isValidating,
+    mutate,
   };
 };

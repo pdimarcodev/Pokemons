@@ -13,14 +13,16 @@ export const useGetPokemons = ({
   offset = 0,
   nextUrl,
 }: UseGetPokemons = {}) => {
-  const { data, error, isLoading, isValidating } = useSWR<PokemonsResponse>(
-    nextUrl || `${POKEMON_API}/pokemon?limit=${limit}&offset=${offset}`
-  );
+  const { data, error, isLoading, isValidating, mutate } =
+    useSWR<PokemonsResponse>(
+      nextUrl || `${POKEMON_API}/pokemon?limit=${limit}&offset=${offset}`
+    );
 
   return {
     data,
     error,
     isLoading,
     isValidating,
+    mutate,
   };
 };

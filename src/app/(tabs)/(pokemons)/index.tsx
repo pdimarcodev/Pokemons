@@ -4,10 +4,11 @@ import { PokemonCard } from "@/components/PokemonCard";
 import Loader from "@/components/Loader";
 import { useGetPokemons } from "@/hooks/useGetPokemons";
 import { useAppContext } from "@/context/AppContext";
+import ErrorMessage from "@/components/Error";
 
 export default function Pokemons() {
   const [nextUrl, setNextUrl] = useState<string>();
-  const { data, error, isValidating } = useGetPokemons({ nextUrl });
+  const { data, error, isValidating, mutate } = useGetPokemons({ nextUrl });
   const { favorites } = useAppContext();
 
   const ref = useRef<FlatList>(null);
@@ -32,7 +33,12 @@ export default function Pokemons() {
     setNextUrl(data?.previous || "");
   };
 
+  const retry = useCallback(() => {
+    mutate?.();
+  }, [mutate]);
+
   if (isValidating) return <Loader size="large" />;
+  if (error) return <ErrorMessage retry={retry} />;
 
   return (
     <FlatList

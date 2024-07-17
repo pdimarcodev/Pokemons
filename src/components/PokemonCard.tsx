@@ -19,6 +19,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import Loader from "./Loader";
+import ErrorMessage from "./Error";
 import { Star } from "./Star";
 import { useGetPokemonByName } from "@/hooks/useGetPokemonByName";
 import { useFavorites } from "@/hooks/useFavorites";
@@ -36,7 +37,7 @@ const PressableAnimated = Animated.createAnimatedComponent(Pressable);
 const { width: screenWidth } = Dimensions.get("window");
 
 export const PokemonCard = ({ name, index, isFavorite }: Props) => {
-  const { data, error, isValidating } = useGetPokemonByName({ name });
+  const { data, error, isValidating, mutate } = useGetPokemonByName({ name });
   const { toggleFavorite } = useFavorites({ name, isFavorite });
   const router = useRouter();
   const segments = useSegments();
@@ -71,6 +72,12 @@ export const PokemonCard = ({ name, index, isFavorite }: Props) => {
   const onLongPress = useCallback(() => {
     toggleFavorite();
   }, []);
+
+  const retry = useCallback(() => {
+    mutate?.();
+  }, [mutate]);
+
+  if (error) return <ErrorMessage retry={retry} />;
 
   return (
     <PressableAnimated
