@@ -10,6 +10,10 @@
 
 # To Start 🚀
 
+```
+npm install / yarn install
+```
+
 - To run on Expo Go:
 
 ```
