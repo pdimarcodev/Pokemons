@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Star Component renders the favorite star 1`] = `
+<View
+  collapsable={false}
+  entering={[Function]}
+  exiting={[Function]}
+  jestAnimatedStyle={
+    {
+      "value": {},
+    }
+  }
+>
+  <Text
+    allowFontScaling={false}
+    selectable={false}
+    style={
+      [
+        {
+          "color": "#ff4d6d",
+          "fontSize": 24,
+        },
+        undefined,
+        {
+          "fontFamily": "anticon",
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        },
+        {},
+      ]
+    }
+  >
+    
+  </Text>
+</View>
+`;
+
+exports[`Star Component renders the non-favorite star 1`] = `
+<View
+  collapsable={false}
+  entering={[Function]}
+  exiting={[Function]}
+  jestAnimatedStyle={
+    {
+      "value": {},
+    }
+  }
+>
+  <Text
+    allowFontScaling={false}
+    selectable={false}
+    style={
+      [
+        {
+          "color": "#ff4d6d",
+          "fontSize": 50,
+        },
+        undefined,
+        {
+          "fontFamily": "anticon",
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        },
+        {},
+      ]
+    }
+  >
+    
+  </Text>
+</View>
+`;
