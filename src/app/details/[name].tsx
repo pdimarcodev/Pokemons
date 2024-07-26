@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { StyleSheet, ScrollView, Text, Pressable } from "react-native";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import Loader from "@/components/Loader";
 import { Star } from "@/components/Star";
 import PokemonsImages from "@/components/PokemonsImages";
@@ -8,14 +8,10 @@ import ErrorMessage from "@/components/Error";
 import { useGetPokemonByName } from "@/hooks/useGetPokemonByName";
 import { useAppContext } from "@/context/AppContext";
 import { useFavorites } from "@/hooks/useFavorites";
-
-type Params = {
-  name: string;
-  formattedPokemonsName: string;
-};
+import { Params } from "./_layout";
 
 export default function PokemonDetailsScreen() {
-  const { name, formattedPokemonsName } = useLocalSearchParams<Params>();
+  const { name } = useLocalSearchParams<Params>();
   const { favorites } = useAppContext();
   const { data, error, isValidating, mutate } = useGetPokemonByName({
     name,
@@ -41,15 +37,6 @@ export default function PokemonDetailsScreen() {
       style={styles.container}
       contentContainerStyle={styles.scrollViewContainer}
     >
-      <Stack.Screen
-        options={{
-          title: formattedPokemonsName || "",
-          headerTitleStyle: styles.headerTitleStyle,
-          headerStyle: styles.headerStyle,
-          headerBackTitleVisible: false,
-          gestureEnabled: true,
-        }}
-      />
       {isValidating || typeof favorites === undefined ? (
         <Loader size="large" />
       ) : (
@@ -76,14 +63,6 @@ export default function PokemonDetailsScreen() {
 }
 
 const styles = StyleSheet.create({
-  headerTitleStyle: {
-    fontSize: 26,
-    fontWeight: "700",
-    color: "white",
-  },
-  headerStyle: {
-    backgroundColor: "#111111",
-  },
   container: {
     backgroundColor: "black",
   },

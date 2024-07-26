@@ -15,6 +15,7 @@ import * as SplashScreen from "expo-splash-screen";
 import ContextProvider from "@/context/Provider";
 import { useColorScheme } from "@/components/useColorScheme";
 import { fetcher } from "@/utils/fetcher";
+import { StyleSheet } from "react-native";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -73,7 +74,16 @@ function RootLayoutNav() {
             <StatusBar style="auto" />
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+              <Stack.Screen
+                name="details"
+                options={{
+                  title: "Details",
+                  headerTitleStyle: styles.headerTitleStyle,
+                  headerStyle: styles.headerStyle,
+                  headerBackTitleVisible: false,
+                  gestureEnabled: true,
+                }}
+              />
             </Stack>
           </SWRConfig>
         </ThemeProvider>
@@ -81,3 +91,14 @@ function RootLayoutNav() {
     </ContextProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  headerTitleStyle: {
+    fontSize: 26,
+    fontWeight: "700",
+    color: "white",
+  },
+  headerStyle: {
+    backgroundColor: "#111111",
+  },
+});

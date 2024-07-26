@@ -7,7 +7,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { useRouter, useSegments } from "expo-router";
+import { useRouter } from "expo-router";
 import Animated, {
   Easing,
   FadeInUp,
@@ -31,7 +31,6 @@ interface Props {
   isFavorite?: boolean;
 }
 
-const SEGMENT_INDEX = 1;
 const DELAY_FACTOR = 100;
 const PressableAnimated = Animated.createAnimatedComponent(Pressable);
 const { width: screenWidth } = Dimensions.get("window");
@@ -40,7 +39,6 @@ export const PokemonCard = ({ name, index, isFavorite }: Props) => {
   const { data, error, isValidating, mutate } = useGetPokemonByName({ name });
   const { toggleFavorite } = useFavorites({ name, isFavorite });
   const router = useRouter();
-  const segments = useSegments();
 
   const scale = useSharedValue(1);
   const formattedPokemonsName = useMemo(() => capitalize(name), [name]);
@@ -53,7 +51,7 @@ export const PokemonCard = ({ name, index, isFavorite }: Props) => {
 
   function goToDetails() {
     router.navigate({
-      pathname: `/${segments[SEGMENT_INDEX]}/${name}`,
+      pathname: `details/${name}`,
       params: { formattedPokemonsName },
     });
   }
