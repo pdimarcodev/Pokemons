@@ -36,7 +36,9 @@ const PressableAnimated = Animated.createAnimatedComponent(Pressable);
 const { width: screenWidth } = Dimensions.get("window");
 
 export const PokemonCard = ({ name, index, isFavorite }: Props) => {
-  const { data, error, isValidating, mutate } = useGetPokemonByName({ name });
+  const { data, error, isValidating, mutate, isLoading } = useGetPokemonByName({
+    name,
+  });
   const { toggleFavorite } = useFavorites({ name, isFavorite });
   const router = useRouter();
 
@@ -83,8 +85,8 @@ export const PokemonCard = ({ name, index, isFavorite }: Props) => {
       onLongPress={onLongPress}
       style={[styles.card, animatedContainerStyle]}
     >
-      {isValidating || typeof isFavorite === undefined ? (
-        <Loader size="small" />
+      {isLoading || isValidating || typeof isFavorite === undefined ? (
+        <Loader color="white" size="small" />
       ) : (
         <Animated.View
           entering={FadeInUp.delay(DELAY_FACTOR * index).springify()}
