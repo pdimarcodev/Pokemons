@@ -1,0 +1,469 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pokemons should render snapshot and Pokemons names 1`] = `
+<RCTScrollView
+  contentContainerStyle={
+    {
+      "backgroundColor": "black",
+      "gap": 20,
+      "paddingBottom": 150,
+      "paddingHorizontal": 20,
+      "paddingTop": 50,
+    }
+  }
+  data={
+    [
+      {
+        "name": "bulbasaur",
+        "url": "https://pokeapi.co/api/v2/pokemon/1",
+      },
+      {
+        "name": "ivysaur",
+        "url": "https://pokeapi.co/api/v2/pokemon/2",
+      },
+    ]
+  }
+  decelerationRate={0.5}
+  getItem={[Function]}
+  getItemCount={[Function]}
+  keyExtractor={[Function]}
+  onContentSizeChange={[Function]}
+  onEndReached={[Function]}
+  onEndReachedThreshold={0.1}
+  onLayout={[Function]}
+  onMomentumScrollBegin={[Function]}
+  onMomentumScrollEnd={[Function]}
+  onScroll={[Function]}
+  onScrollBeginDrag={[Function]}
+  onScrollEndDrag={[Function]}
+  refreshControl={
+    <RefreshControlMock
+      onRefresh={[Function]}
+      refreshing={false}
+    />
+  }
+  removeClippedSubviews={false}
+  renderItem={[Function]}
+  scrollEventThrottle={0.0001}
+  showsVerticalScrollIndicator={false}
+  stickyHeaderIndices={[]}
+  style={
+    {
+      "backgroundColor": "black",
+      "flex": 1,
+    }
+  }
+  viewabilityConfigCallbackPairs={[]}
+>
+  <RCTRefreshControl />
+  <View>
+    <View
+      onFocusCapture={[Function]}
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          [
+            {
+              "flexDirection": "row",
+            },
+            {
+              "gap": 20,
+            },
+          ]
+        }
+      >
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          jestAnimatedStyle={
+            {
+              "value": {
+                "transform": [
+                  {
+                    "scale": 1,
+                  },
+                ],
+              },
+            }
+          }
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "backgroundColor": "#003566",
+              "borderBottomWidth": 2,
+              "borderColor": "#0077B6",
+              "borderRadius": 5,
+              "borderWidth": 1,
+              "height": 130,
+              "paddingBottom": 10,
+              "position": "relative",
+              "transform": [
+                {
+                  "scale": 1,
+                },
+              ],
+              "width": 345,
+            }
+          }
+        >
+          <View
+            collapsable={false}
+            entering={
+              FadeInUp {
+                "build": [Function],
+                "callbackV": undefined,
+                "dampingRatioV": undefined,
+                "dampingV": undefined,
+                "delayV": 0,
+                "durationV": undefined,
+                "easingV": undefined,
+                "initialValues": undefined,
+                "massV": undefined,
+                "overshootClampingV": undefined,
+                "randomizeDelay": false,
+                "reduceMotionV": "system",
+                "restDisplacementThresholdV": undefined,
+                "restSpeedThresholdV": undefined,
+                "rotateV": undefined,
+                "stiffnessV": undefined,
+                "type": [Function],
+              }
+            }
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
+          >
+            <View
+              style={
+                {
+                  "position": "absolute",
+                  "right": 10,
+                  "top": 10,
+                  "zIndex": 10,
+                }
+              }
+            >
+              <View
+                collapsable={false}
+                entering={[Function]}
+                exiting={[Function]}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
+              >
+                <Text
+                  allowFontScaling={false}
+                  selectable={false}
+                  style={
+                    [
+                      {
+                        "color": "#ff4d6d",
+                        "fontSize": 24,
+                      },
+                      undefined,
+                      {
+                        "fontFamily": "anticon",
+                        "fontStyle": "normal",
+                        "fontWeight": "normal",
+                      },
+                      {},
+                    ]
+                  }
+                >
+                  
+                </Text>
+              </View>
+            </View>
+            <View
+              style={
+                {
+                  "alignSelf": "center",
+                  "height": 90,
+                  "width": 90,
+                }
+              }
+            >
+              <Image
+                resizeMode="stretch"
+                source={
+                  {
+                    "uri": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png",
+                  }
+                }
+                style={
+                  {
+                    "flex": 1,
+                  }
+                }
+              />
+            </View>
+            <View
+              style={
+                {
+                  "alignItems": "baseline",
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                  "paddingHorizontal": 10,
+                }
+              }
+            >
+              <Text
+                adjustsFontSizeToFit={true}
+                numberOfLines={1}
+                style={
+                  {
+                    "color": "#fff",
+                    "flexShrink": 1,
+                    "fontSize": 15,
+                    "fontWeight": "bold",
+                    "marginRight": 2,
+                  }
+                }
+              >
+                Bulbasaur
+              </Text>
+              <Text
+                style={
+                  {
+                    "color": "#fff",
+                    "fontSize": 11,
+                  }
+                }
+              >
+                #
+                1
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          jestAnimatedStyle={
+            {
+              "value": {
+                "transform": [
+                  {
+                    "scale": 1,
+                  },
+                ],
+              },
+            }
+          }
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "backgroundColor": "#003566",
+              "borderBottomWidth": 2,
+              "borderColor": "#0077B6",
+              "borderRadius": 5,
+              "borderWidth": 1,
+              "height": 130,
+              "paddingBottom": 10,
+              "position": "relative",
+              "transform": [
+                {
+                  "scale": 1,
+                },
+              ],
+              "width": 345,
+            }
+          }
+        >
+          <View
+            collapsable={false}
+            entering={
+              FadeInUp {
+                "build": [Function],
+                "callbackV": undefined,
+                "dampingRatioV": undefined,
+                "dampingV": undefined,
+                "delayV": 100,
+                "durationV": undefined,
+                "easingV": undefined,
+                "initialValues": undefined,
+                "massV": undefined,
+                "overshootClampingV": undefined,
+                "randomizeDelay": false,
+                "reduceMotionV": "system",
+                "restDisplacementThresholdV": undefined,
+                "restSpeedThresholdV": undefined,
+                "rotateV": undefined,
+                "stiffnessV": undefined,
+                "type": [Function],
+              }
+            }
+            jestAnimatedStyle={
+              {
+                "value": {},
+              }
+            }
+          >
+            <View
+              style={
+                {
+                  "position": "absolute",
+                  "right": 10,
+                  "top": 10,
+                  "zIndex": 10,
+                }
+              }
+            >
+              <View
+                collapsable={false}
+                entering={[Function]}
+                exiting={[Function]}
+                jestAnimatedStyle={
+                  {
+                    "value": {},
+                  }
+                }
+              >
+                <Text
+                  allowFontScaling={false}
+                  selectable={false}
+                  style={
+                    [
+                      {
+                        "color": "#ff4d6d",
+                        "fontSize": 24,
+                      },
+                      undefined,
+                      {
+                        "fontFamily": "anticon",
+                        "fontStyle": "normal",
+                        "fontWeight": "normal",
+                      },
+                      {},
+                    ]
+                  }
+                >
+                  
+                </Text>
+              </View>
+            </View>
+            <View
+              style={
+                {
+                  "alignSelf": "center",
+                  "height": 90,
+                  "width": 90,
+                }
+              }
+            >
+              <Image
+                resizeMode="stretch"
+                source={
+                  {
+                    "uri": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png",
+                  }
+                }
+                style={
+                  {
+                    "flex": 1,
+                  }
+                }
+              />
+            </View>
+            <View
+              style={
+                {
+                  "alignItems": "baseline",
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                  "paddingHorizontal": 10,
+                }
+              }
+            >
+              <Text
+                adjustsFontSizeToFit={true}
+                numberOfLines={1}
+                style={
+                  {
+                    "color": "#fff",
+                    "flexShrink": 1,
+                    "fontSize": 15,
+                    "fontWeight": "bold",
+                    "marginRight": 2,
+                  }
+                }
+              >
+                Ivysaur
+              </Text>
+              <Text
+                style={
+                  {
+                    "color": "#fff",
+                    "fontSize": 11,
+                  }
+                }
+              >
+                #
+                2
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</RCTScrollView>
+`;

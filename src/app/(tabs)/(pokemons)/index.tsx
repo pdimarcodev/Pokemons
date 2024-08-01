@@ -37,7 +37,7 @@ export default function Pokemons() {
     mutate?.();
   }, [mutate]);
 
-  if (isValidating) return <Loader size="large" />;
+  // if (isValidating) return <Loader testID="loading" size="large" />;
   if (error) return <ErrorMessage retry={retry} />;
 
   return (

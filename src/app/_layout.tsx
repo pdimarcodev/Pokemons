@@ -16,6 +16,10 @@ import ContextProvider from "@/context/Provider";
 import { useColorScheme } from "@/components/useColorScheme";
 import { fetcher } from "@/utils/fetcher";
 
+if (__DEV__) {
+  require("../../ReactotronConfig");
+}
+
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,

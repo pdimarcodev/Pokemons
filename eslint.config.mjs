@@ -7,17 +7,30 @@ import { FlatCompat } from "@eslint/eslintrc";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const compat = new FlatCompat({
-    baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended,
-    allConfig: js.configs.all
+  baseDirectory: __dirname,
+  recommendedConfig: js.configs.recommended,
+  allConfig: js.configs.all,
 });
 
-export default [...compat.extends("expo", "prettier"), {
+export default [
+  ...compat.extends("expo", "prettier"),
+  {
     plugins: {
-        prettier,
+      prettier,
     },
 
     rules: {
-        "prettier/prettier": "error",
+      "prettier/prettier": "error",
     },
-}];
+    overrides: [
+      {
+        // Test files only
+        files: [
+          "**/__tests__/**/*.[jt]s?(x)",
+          "**/?(*.)+(spec|test).[jt]s?(x)",
+        ],
+        extends: ["plugin:testing-library/react"],
+      },
+    ],
+  },
+];
