@@ -37,6 +37,17 @@ export default function Pokemons() {
     mutate?.();
   }, [mutate]);
 
+  const renderItem = useCallback(
+    ({ item: { name }, index }) => (
+      <PokemonCard
+        name={name}
+        index={index}
+        isFavorite={favorites?.includes(name)}
+      />
+    ),
+    [favorites]
+  );
+
   // if (isValidating) return <Loader testID="loading" size="large" />;
   if (error) return <ErrorMessage retry={retry} />;
 
@@ -52,13 +63,7 @@ export default function Pokemons() {
       decelerationRate={0.5}
       onScrollBeginDrag={onMomentumScrollBegin}
       showsVerticalScrollIndicator={false}
-      renderItem={({ item: { name }, index }) => (
-        <PokemonCard
-          name={name}
-          index={index}
-          isFavorite={favorites?.includes(name)}
-        />
-      )}
+      renderItem={renderItem}
       refreshControl={
         <RefreshControl refreshing={isValidating} onRefresh={onRefresh} />
       }

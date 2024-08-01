@@ -36,6 +36,7 @@ export const useFavorites = ({
 
       if (favorites.includes(item)) return;
 
+      console.log("ADD FAVORITE ITEM", item);
       favorites.push(item);
       await AsyncStorage.setItem(KEY, JSON.stringify(favorites));
       setFavorites(favorites);
@@ -68,6 +69,8 @@ export const useFavorites = ({
       return;
 
     if (isFavorite) {
+      console.log("IS FAVORITE", isFavorite);
+
       removeFavorite(name);
       return;
     }

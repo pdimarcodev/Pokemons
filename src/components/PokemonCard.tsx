@@ -67,11 +67,7 @@ export const PokemonCard = ({ name, index, isFavorite }: Props) => {
         }
       })
     );
-  }, []);
-
-  const onLongPress = useCallback(() => {
-    toggleFavorite();
-  }, []);
+  }, [isFavorite]);
 
   const retry = useCallback(() => {
     mutate?.();
@@ -82,7 +78,7 @@ export const PokemonCard = ({ name, index, isFavorite }: Props) => {
   return (
     <PressableAnimated
       onPress={onPress}
-      onLongPress={onLongPress}
+      onLongPress={toggleFavorite}
       style={[styles.card, animatedContainerStyle]}
     >
       {isValidating || typeof isFavorite === undefined ? (
