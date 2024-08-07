@@ -1,73 +1,57 @@
-import { useCallback, useRef, useState } from "react";
-import { FlatList, RefreshControl, StyleSheet } from "react-native";
+import { memo, useCallback } from "react";
+import { FlatList, StyleSheet } from "react-native";
 import { PokemonCard } from "@/components/PokemonCard";
-import Loader from "@/components/Loader";
 import ErrorMessage from "@/components/Error";
 import { useGetPokemons } from "@/hooks/useGetPokemons";
 import { useAppContext } from "@/context/AppContext";
+import { PokemonResult } from "@/interfaces";
+
+const PAGE_SIZE = 20;
+
+interface ItemProps {
+  name: string;
+  index: number;
+  isFavorite?: boolean;
+}
+
+const Item = memo(({ name, index, isFavorite }: ItemProps) => (
+  <PokemonCard name={name} index={index % PAGE_SIZE} isFavorite={isFavorite} />
+));
 
 export default function Pokemons() {
-  const [nextUrl, setNextUrl] = useState<string>();
-  const { data, error, isValidating, mutate } = useGetPokemons({ nextUrl });
   const { favorites } = useAppContext();
-
-  const ref = useRef<FlatList>(null);
-  const onEndReachedCalledDuringMomentum = useRef<boolean>(true);
-
-  const loadMore = useCallback(() => {
-    if (!onEndReachedCalledDuringMomentum.current && data?.next) {
-      setNextUrl(data?.next);
-      onEndReachedCalledDuringMomentum.current = true;
-      ref?.current?.scrollToIndex({
-        index: 0,
-        animated: true,
-      });
-    }
-  }, [data?.next]);
-
-  const onMomentumScrollBegin = () => {
-    onEndReachedCalledDuringMomentum.current = false;
-  };
-
-  const onRefresh = () => {
-    setNextUrl(data?.previous || "");
-  };
+  const { data, error, refetch, fetchNextPage } = useGetPokemons({
+    limit: PAGE_SIZE,
+  });
 
   const retry = useCallback(() => {
-    mutate?.();
-  }, [mutate]);
+    refetch?.();
+  }, [refetch]);
 
   const renderItem = useCallback(
-    ({ item: { name }, index }) => (
-      <PokemonCard
+    ({ item: { name }, index }: { item: PokemonResult; index: number }) => (
+      <Item
         name={name}
-        index={index}
+        index={index % PAGE_SIZE}
         isFavorite={favorites?.includes(name)}
       />
     ),
     [favorites]
   );
 
-  // if (isValidating) return <Loader testID="loading" size="large" />;
   if (error) return <ErrorMessage retry={retry} />;
 
   return (
     <FlatList
-      ref={ref}
-      data={data?.results}
+      data={data?.pages?.flatMap((page) => page.results)}
       numColumns={2}
-      keyExtractor={({ name }) => name}
+      keyExtractor={(pokemon, index) => `${pokemon.name}-${index}`}
       style={styles.container}
       contentContainerStyle={styles.flatlistContainer}
       columnWrapperStyle={styles.flatlistColumn}
-      decelerationRate={0.5}
-      onScrollBeginDrag={onMomentumScrollBegin}
       showsVerticalScrollIndicator={false}
       renderItem={renderItem}
-      refreshControl={
-        <RefreshControl refreshing={isValidating} onRefresh={onRefresh} />
-      }
-      onEndReached={loadMore}
+      onEndReached={() => fetchNextPage()}
       onEndReachedThreshold={0.1}
     />
   );

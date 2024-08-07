@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { StyleSheet, ScrollView, Text, Pressable } from "react-native";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import Loader from "@/components/Loader";
 import { Star } from "@/components/Star";
 import PokemonsImages from "@/components/PokemonsImages";
@@ -8,16 +8,12 @@ import ErrorMessage from "@/components/Error";
 import { useGetPokemonByName } from "@/hooks/useGetPokemonByName";
 import { useAppContext } from "@/context/AppContext";
 import { useFavorites } from "@/hooks/useFavorites";
-
-type Params = {
-  name: string;
-  formattedPokemonsName: string;
-};
+import { Params } from "./_layout";
 
 export default function PokemonDetailsScreen() {
-  const { name, formattedPokemonsName } = useLocalSearchParams<Params>();
+  const { name } = useLocalSearchParams<Params>();
   const { favorites } = useAppContext();
-  const { data, error, isValidating, mutate } = useGetPokemonByName({
+  const { data, error, isFetching, refetch } = useGetPokemonByName({
     name,
   });
   const isFavorite = useMemo(
@@ -26,13 +22,9 @@ export default function PokemonDetailsScreen() {
   );
   const { toggleFavorite } = useFavorites({ name, isFavorite });
 
-  const onLongPress = useCallback(() => {
-    toggleFavorite();
-  }, []);
-
   const retry = useCallback(() => {
-    mutate?.();
-  }, [mutate]);
+    refetch?.();
+  }, [refetch]);
 
   if (error) return <ErrorMessage retry={retry} />;
 
@@ -41,20 +33,11 @@ export default function PokemonDetailsScreen() {
       style={styles.container}
       contentContainerStyle={styles.scrollViewContainer}
     >
-      <Stack.Screen
-        options={{
-          title: formattedPokemonsName || "",
-          headerTitleStyle: styles.headerTitleStyle,
-          headerStyle: styles.headerStyle,
-          headerBackTitleVisible: false,
-          gestureEnabled: true,
-        }}
-      />
-      {isValidating || typeof favorites === undefined ? (
+      {isFetching || typeof favorites === undefined ? (
         <Loader size="large" />
       ) : (
         <>
-          <Pressable onLongPress={onLongPress} style={styles.star}>
+          <Pressable onLongPress={toggleFavorite} style={styles.star}>
             <Star isFavorite={isFavorite} size={50} />
           </Pressable>
           <Text style={styles.text}>#{data?.id}</Text>
@@ -62,11 +45,15 @@ export default function PokemonDetailsScreen() {
           <PokemonsImages imageType="shiny" sprites={data?.sprites} />
           <Text style={styles.caption}>Tap image to flip</Text>
           <Text style={styles.title}>Type</Text>
-          <Text style={styles.text}>{data?.types?.[0].type?.name}</Text>
+          {data?.types?.map((type, index) => (
+            <Text key={index} style={styles.text}>
+              {type}
+            </Text>
+          ))}
           <Text style={styles.title}>Abilities</Text>
           {data?.abilities?.map((ability, index) => (
             <Text key={index} style={styles.text}>
-              {ability?.ability?.name}
+              {ability}
             </Text>
           ))}
         </>
@@ -76,14 +63,6 @@ export default function PokemonDetailsScreen() {
 }
 
 const styles = StyleSheet.create({
-  headerTitleStyle: {
-    fontSize: 26,
-    fontWeight: "700",
-    color: "white",
-  },
-  headerStyle: {
-    backgroundColor: "#111111",
-  },
   container: {
     backgroundColor: "black",
   },

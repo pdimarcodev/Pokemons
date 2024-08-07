@@ -7,7 +7,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { useRouter, useSegments } from "expo-router";
+import { useRouter } from "expo-router";
 import Animated, {
   Easing,
   FadeInUp,
@@ -31,16 +31,16 @@ interface Props {
   isFavorite?: boolean;
 }
 
-const SEGMENT_INDEX = 1;
 const DELAY_FACTOR = 100;
 const PressableAnimated = Animated.createAnimatedComponent(Pressable);
 const { width: screenWidth } = Dimensions.get("window");
 
 export const PokemonCard = ({ name, index, isFavorite }: Props) => {
-  const { data, error, isValidating, mutate } = useGetPokemonByName({ name });
+  const { data, error, isFetching, refetch, isLoading } = useGetPokemonByName({
+    name,
+  });
   const { toggleFavorite } = useFavorites({ name, isFavorite });
   const router = useRouter();
-  const segments = useSegments();
 
   const scale = useSharedValue(1);
   const formattedPokemonsName = useMemo(() => capitalize(name), [name]);
@@ -53,7 +53,7 @@ export const PokemonCard = ({ name, index, isFavorite }: Props) => {
 
   function goToDetails() {
     router.navigate({
-      pathname: `/${segments[SEGMENT_INDEX]}/${name}`,
+      pathname: `details/${name}`,
       params: { formattedPokemonsName },
     });
   }
@@ -70,8 +70,8 @@ export const PokemonCard = ({ name, index, isFavorite }: Props) => {
   }, [isFavorite]);
 
   const retry = useCallback(() => {
-    mutate?.();
-  }, [mutate]);
+    refetch?.();
+  }, [refetch]);
 
   if (error) return <ErrorMessage retry={retry} />;
 
@@ -81,8 +81,8 @@ export const PokemonCard = ({ name, index, isFavorite }: Props) => {
       onLongPress={toggleFavorite}
       style={[styles.card, animatedContainerStyle]}
     >
-      {isValidating || typeof isFavorite === undefined ? (
-        <Loader size="small" />
+      {isLoading || isFetching || typeof isFavorite === undefined ? (
+        <Loader color="white" size="small" />
       ) : (
         <Animated.View
           entering={FadeInUp.delay(DELAY_FACTOR * index).springify()}
@@ -92,7 +92,7 @@ export const PokemonCard = ({ name, index, isFavorite }: Props) => {
           </View>
           <View style={styles.imageContainer}>
             <Image
-              source={{ uri: data?.sprites?.front_shiny }}
+              source={{ uri: data?.avatar }}
               style={styles.image}
               resizeMode="stretch"
             />
@@ -117,7 +117,6 @@ const styles = StyleSheet.create({
     borderColor: "#0077B6",
     borderWidth: 1,
     borderBottomWidth: 2,
-    paddingBottom: 10,
     backgroundColor: "#003566",
     position: "relative",
   },
@@ -133,6 +132,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "baseline",
     justifyContent: "space-between",
+    marginTop: 10,
     paddingHorizontal: 10,
   },
   name: {

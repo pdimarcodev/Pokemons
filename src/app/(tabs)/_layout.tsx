@@ -3,6 +3,7 @@ import { Tabs } from "expo-router";
 import { useColorScheme } from "@/components/useColorScheme.web";
 import Colors from "@/constants/Colors";
 import { useClientOnlyValue } from "@/components/useClientOnlyValue";
+import { Image } from "react-native";
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>["name"];
@@ -19,7 +20,7 @@ export default function TabLayout() {
       initialRouteName="(pokemons)"
       sceneContainerStyle={{ backgroundColor: "#111111" }}
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarActiveTintColor: "#ee1515",
         headerShown: useClientOnlyValue(false, true),
         headerStyle: {
           backgroundColor: "#111111",
@@ -50,14 +51,18 @@ export default function TabLayout() {
         name="(pokemons)"
         options={{
           title: "Pokemons",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="circle-o-notch" color={color} />
+          ),
         }}
       />
       <Tabs.Screen
         name="(favorites)"
         options={{
           title: "Favorites",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="heart-o" color={color} />
+          ),
         }}
       />
     </Tabs>
