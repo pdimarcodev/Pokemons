@@ -46,9 +46,6 @@ Tested on physical iPhone XR.
 
 ## How to use
 
-A paging size of 20 is used, you can get more pokemons
-by pushing more at the list's end.\
-To move back to previous items do a pull refresh at the list's start.\
 Do a long press on the card (or the star in the details' screen)
 to add or remove favorite.\
 Favorites are persisted on the device.\
@@ -58,9 +55,9 @@ Tap on the pokemon's image in details' screen to flip it.
 
 Expo\
 Expo Router\
+TanStack Query\
 Reanimated\
-Gesture Handler\
-SWR
+Gesture Handler
 
 ## Developer
 
