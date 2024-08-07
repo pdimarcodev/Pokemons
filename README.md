@@ -57,7 +57,8 @@ Expo\
 Expo Router\
 TanStack Query\
 Reanimated\
-Gesture Handler
+Gesture Handler\
+React Testing Library
 
 ## Developer
 
