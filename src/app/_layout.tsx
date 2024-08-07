@@ -4,7 +4,6 @@ import { StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SWRConfig } from "swr";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import {
   DarkTheme,
@@ -16,7 +15,6 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import ContextProvider from "@/context/Provider";
 import { useColorScheme } from "@/components/useColorScheme";
-import { fetcher } from "@/utils/fetcher";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -66,29 +64,20 @@ function RootLayoutNav() {
           <ThemeProvider
             value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
           >
-            <SWRConfig
-              value={{
-                fetcher,
-                revalidateIfStale: false,
-                revalidateOnFocus: false,
-                revalidateOnReconnect: false,
-              }}
-            >
-              <StatusBar style="auto" />
-              <Stack>
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                <Stack.Screen
-                  name="details"
-                  options={{
-                    title: "Details",
-                    headerTitleStyle: styles.headerTitleStyle,
-                    headerStyle: styles.headerStyle,
-                    headerBackTitleVisible: false,
-                    gestureEnabled: true,
-                  }}
-                />
-              </Stack>
-            </SWRConfig>
+            <StatusBar style="auto" />
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen
+                name="details"
+                options={{
+                  title: "Details",
+                  headerTitleStyle: styles.headerTitleStyle,
+                  headerStyle: styles.headerStyle,
+                  headerBackTitleVisible: false,
+                  gestureEnabled: true,
+                }}
+              />
+            </Stack>
           </ThemeProvider>
         </SafeAreaProvider>
       </QueryClientProvider>

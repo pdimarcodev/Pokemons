@@ -34,6 +34,12 @@ export interface Pokemon {
   weight: number;
 }
 
+export type BasicPokemon = Pick<Pokemon, "id" | "name" | "sprites"> & {
+  avatar: string;
+  abilities: Array<string>;
+  types: Array<string>;
+};
+
 export interface Ability {
   ability: Species;
   is_hidden: boolean;
@@ -189,5 +195,3 @@ export interface Type {
   slot: number;
   type: Species;
 }
-
-export type BasicPokemon = Pick<Pokemon, "id" | "name">;

@@ -1,12 +1,10 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { PokemonsResponse } from "@/interfaces";
-import { POKEMON_API } from "@/constants";
+import { POKEMON_API, STALE_TIME } from "@/constants";
 
 interface UseGetPokemons {
   limit?: number;
 }
-
-const STALE_TIME = 1000 * 60 * 60;
 
 export const useGetPokemons = ({ limit = 20 }: UseGetPokemons = {}) => {
   const getPokemons = async (page: number) => {
@@ -14,8 +12,8 @@ export const useGetPokemons = ({ limit = 20 }: UseGetPokemons = {}) => {
       const response = await fetch(
         `${POKEMON_API}/pokemon?limit=${limit}&offset=${page * limit}`
       );
-      const data: PokemonsResponse = await response.json();
-      return data;
+      const pokemons: PokemonsResponse = await response.json();
+      return pokemons;
     } catch (error) {
       throw new Error("Failed to fetch");
     }
@@ -23,7 +21,7 @@ export const useGetPokemons = ({ limit = 20 }: UseGetPokemons = {}) => {
 
   const { isLoading, isFetching, data, fetchNextPage, error, refetch } =
     useInfiniteQuery({
-      queryKey: ["pokemons", "infinite"],
+      queryKey: ["pokemons"],
       queryFn: ({ pageParam }) => getPokemons(pageParam),
       initialPageParam: 0,
       staleTime: STALE_TIME,
@@ -34,8 +32,8 @@ export const useGetPokemons = ({ limit = 20 }: UseGetPokemons = {}) => {
     data,
     error,
     isLoading,
-    isValidating: isFetching,
-    mutate: refetch,
+    isFetching,
+    refetch,
     fetchNextPage,
   };
 };

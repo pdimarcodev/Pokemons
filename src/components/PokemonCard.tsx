@@ -36,7 +36,7 @@ const PressableAnimated = Animated.createAnimatedComponent(Pressable);
 const { width: screenWidth } = Dimensions.get("window");
 
 export const PokemonCard = ({ name, index, isFavorite }: Props) => {
-  const { data, error, isValidating, mutate, isLoading } = useGetPokemonByName({
+  const { data, error, isFetching, refetch, isLoading } = useGetPokemonByName({
     name,
   });
   const { toggleFavorite } = useFavorites({ name, isFavorite });
@@ -69,23 +69,19 @@ export const PokemonCard = ({ name, index, isFavorite }: Props) => {
     );
   }, []);
 
-  const onLongPress = useCallback(() => {
-    toggleFavorite();
-  }, []);
-
   const retry = useCallback(() => {
-    mutate?.();
-  }, [mutate]);
+    refetch?.();
+  }, [refetch]);
 
   if (error) return <ErrorMessage retry={retry} />;
 
   return (
     <PressableAnimated
       onPress={onPress}
-      onLongPress={onLongPress}
+      onLongPress={toggleFavorite}
       style={[styles.card, animatedContainerStyle]}
     >
-      {isLoading || isValidating || typeof isFavorite === undefined ? (
+      {isLoading || isFetching || typeof isFavorite === undefined ? (
         <Loader color="white" size="small" />
       ) : (
         <Animated.View
@@ -96,7 +92,7 @@ export const PokemonCard = ({ name, index, isFavorite }: Props) => {
           </View>
           <View style={styles.imageContainer}>
             <Image
-              source={{ uri: data?.sprites?.front_shiny }}
+              source={{ uri: data?.avatar }}
               style={styles.image}
               resizeMode="stretch"
             />
@@ -121,7 +117,6 @@ const styles = StyleSheet.create({
     borderColor: "#0077B6",
     borderWidth: 1,
     borderBottomWidth: 2,
-    paddingBottom: 10,
     backgroundColor: "#003566",
     position: "relative",
   },
@@ -137,6 +132,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "baseline",
     justifyContent: "space-between",
+    marginTop: 10,
     paddingHorizontal: 10,
   },
   name: {

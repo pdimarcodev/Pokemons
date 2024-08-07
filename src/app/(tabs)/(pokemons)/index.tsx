@@ -20,13 +20,13 @@ const Item = memo(({ name, index, isFavorite }: ItemProps) => (
 
 export default function Pokemons() {
   const { favorites } = useAppContext();
-  const { data, error, mutate, fetchNextPage } = useGetPokemons({
+  const { data, error, refetch, fetchNextPage } = useGetPokemons({
     limit: PAGE_SIZE,
   });
 
   const retry = useCallback(() => {
-    mutate?.();
-  }, [mutate]);
+    refetch?.();
+  }, [refetch]);
 
   const renderItem = useCallback(
     ({ item: { name }, index }: { item: PokemonResult; index: number }) => (
@@ -45,7 +45,7 @@ export default function Pokemons() {
     <FlatList
       data={data?.pages?.flatMap((page) => page.results)}
       numColumns={2}
-      keyExtractor={({ name }) => name}
+      keyExtractor={(pokemon, index) => `${pokemon.name}-${index}`}
       style={styles.container}
       contentContainerStyle={styles.flatlistContainer}
       columnWrapperStyle={styles.flatlistColumn}
