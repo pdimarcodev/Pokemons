@@ -6,7 +6,11 @@
 
 ### This is a take-home project.
 
+## Demos
+
+<img src="https://github.com/pdimarcodev/Pokemons/blob/main/demo/poke1.gif" width="300"/>
 <br/>
+<img src="https://github.com/pdimarcodev/Pokemons/blob/main/demo/poke2.gif" width="300"/>
 
 # To Start 🚀
 
@@ -60,12 +64,6 @@ TanStack Query\
 Reanimated\
 Gesture Handler\
 React Testing Library
-
-## Demos
-
-<img src="https://github.com/pdimarcodev/Pokemons/blob/main/demo/poke1.gif" width="300"/>
-<br/>
-<img src="https://github.com/pdimarcodev/Pokemons/blob/main/demo/poke2.gif" width="300"/>
 
 ## Developer
 
