@@ -63,9 +63,9 @@ React Testing Library
 
 ## Demos
 
-<img src="https://github.com/pdimarcodev/Pokemons/blob/master/demos/poke1.gif" width="300"/>
+<img src="https://github.com/pdimarcodev/Pokemons/blob/main/demo/poke1.gif" width="300"/>
 <br/>
-<img src="https://github.com/pdimarcodev/Pokemons/blob/master/demos/poke2.gif" width="300"/>
+<img src="https://github.com/pdimarcodev/Pokemons/blob/main/demo/poke2.gif" width="300"/>
 
 ## Developer
 
