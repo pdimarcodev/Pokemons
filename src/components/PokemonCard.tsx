@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import {
   Dimensions,
   Image,
@@ -43,7 +43,7 @@ export const PokemonCard = ({ name, index, isFavorite }: Props) => {
   const router = useRouter();
 
   const scale = useSharedValue(1);
-  const formattedPokemonsName = useMemo(() => capitalize(name), [name]);
+  const formattedPokemonsName = capitalize(name);
 
   const animatedContainerStyle = useAnimatedStyle(() => {
     return {

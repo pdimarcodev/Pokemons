@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import { StyleSheet, ScrollView, Text, Pressable } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import Loader from "@/components/Loader";
@@ -16,10 +16,8 @@ export default function PokemonDetailsScreen() {
   const { data, error, isFetching, refetch } = useGetPokemonByName({
     name,
   });
-  const isFavorite = useMemo(
-    () => favorites?.includes(name ?? ""),
-    [favorites, name]
-  );
+  const isFavorite = favorites?.includes(name ?? "");
+
   const { toggleFavorite } = useFavorites({ name, isFavorite });
 
   const retry = useCallback(() => {

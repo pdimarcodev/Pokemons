@@ -55,10 +55,17 @@ Tap on the pokemon's image in details' screen to flip it.
 
 Expo\
 Expo Router\
+Async Storage\
 TanStack Query\
 Reanimated\
 Gesture Handler\
 React Testing Library
+
+## Demos
+
+<img src="https://github.com/pdimarcodev/Pokemons/blob/master/demos/poke1.gif" width="300"/>
+<br/>
+<img src="https://github.com/pdimarcodev/Pokemons/blob/master/demos/poke2.gif" width="300"/>
 
 ## Developer
 

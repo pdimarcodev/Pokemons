@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useAppContext } from "@/context/AppContext";
 import { PokemonCard } from "@/components/PokemonCard";
@@ -16,7 +15,7 @@ export default function Favorites() {
   if (typeof favorites === undefined) return null;
   if (!favorites?.length) return <EmptyState />;
 
-  const sortedFavorites = useMemo(() => favorites.sort(), [favorites]);
+  const sortedFavorites = favorites.sort();
 
   return (
     <FlatList
